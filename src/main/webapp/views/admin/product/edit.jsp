@@ -105,9 +105,11 @@ a {
 					modelAttribute="productModel" enctype="multipart/form-data">
 					<div class="row">
 						<div class="col-3">
-							<img class="img-fluid" id="imgPreview" src="${pageContext.request.contextPath}/upload/${productModel.image}" alt=""
-								style="border: 1px solid #ccc;"> <label>Hình ảnh</label> <input
-								type="file" name="image" id="image">
+							<img class="img-fluid" id="imgPreview"
+								src="${pageContext.request.contextPath}/upload/${productModel.image}"
+								alt="" style="border: 1px solid #ccc;"> <label>Hình
+								ảnh</label>
+							<form:input type="file" path="imageFile" cssClass="form-control" />
 							<form:errors path="image" element="span"
 								cssClass="text-danger d-block" />
 						</div>
@@ -168,7 +170,7 @@ a {
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script type="text/javascript">
 		 $(document).ready(() => {
-		        $('#image').change(function () {
+		        $('#imageFile').change(function () {
 		            const file = this.files[0];
 		            if (file) {
 		                let reader = new FileReader();

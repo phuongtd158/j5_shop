@@ -6,6 +6,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.poly.entities.Category;
 
 import lombok.AllArgsConstructor;
@@ -37,4 +39,6 @@ public class ProductModel {
 
     @NotNull(message = "Không được để trống danh mục")
     private Category categoryById;
+    
+    private MultipartFile imageFile;
 }

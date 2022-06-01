@@ -1,8 +1,12 @@
 package com.poly.controllers.admins;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.Date;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,25 +68,22 @@ public class ProductController {
 	}
 
 	@PostMapping("store")
-	public String store(Model model, @Valid ProductModel productModel, BindingResult result,
-			@RequestParam("image") MultipartFile uploadedFile) {
+	public String store(Model model, @Valid ProductModel productModel, BindingResult result) {
 
 		Product product = this.mapper.convertToEntity(productModel);
 		Category category = this.categoryService.getById(productModel.getCategoryById().getId());
 		List<Category> listCategories = this.categoryService.findAllActive();
 		Date currentDate = new Date(System.currentTimeMillis());
-		String imageFileName = uploadedFile.getOriginalFilename().toString();
-		
-		System.out.println(imageFileName);
-		if (result.hasErrors()) {
 
-			System.err.println(result.getAllErrors());
+		if (result.hasErrors()) {
 			model.addAttribute("listCategories", listCategories);
 			return "/admin/product/create";
 		}
 
-		product.setImage(imageFileName);
-		this.uploadFileUtils.handleUploadFile(uploadedFile);
+		if (!productModel.getImageFile().isEmpty()) {
+			product.setImage(uploadFileUtils.uploadFile(productModel.getImageFile()));
+		}
+
 		product.setAvailable(productModel.getAvailable());
 		product.setCategoryById(category);
 		product.setCreateDate(currentDate);
@@ -125,12 +126,15 @@ public class ProductController {
 			return "/admin/product/edit";
 		}
 
+		if (!productModel.getImageFile().isEmpty()) {
+			product.setImage(uploadFileUtils.uploadFile(productModel.getImageFile()));
+		}
+
 		product.setAvailable(productModel.getAvailable());
 		product.setCategoryById(category);
 		product.setCreateDate(product.getCreateDate());
 		product.setName(productModel.getName());
 		product.setPrice(productModel.getPrice());
-		product.setImage("none");
 		product.setStatus(1);
 
 		this.productService.save(product);

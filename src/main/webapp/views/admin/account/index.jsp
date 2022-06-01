@@ -151,7 +151,9 @@ a {
 							<td>${account.username}</td>
 							<td>${account.fullName}</td>
 							<td>${account.email}</td>
-							<td>${account.photo}</td>
+							<td>
+								<img src="${pageContext.request.contextPath}/upload/${account.photo}" width="70px" alt="">
+							</td>
 							<td>${account.activated == 1 ? 'Activated' : 'Inactivated'}</td>
 							<td>${account.admin == 1 ? 'Admin' : 'User'}</td>
 							<td><a class="btn btn-warning"

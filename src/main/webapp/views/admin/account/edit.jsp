@@ -102,13 +102,15 @@ a {
 				<h3 class="text-center">Cập nhật người dùng</h3>
 				<form:form
 					action="${pageContext.request.contextPath}/admin/account/update/${accountModel.id}"
-					modelAttribute="accountModel">
+					modelAttribute="accountModel" enctype="multipart/form-data">
 					<div class="row">
 						<div class="col-3">
-							<img class="img-fluid" id="imgPreview" src="" alt=""
-								style="border: 1px solid #ccc;"> <label>Hình ảnh</label>
-							<form:input type="file" path="photo" />
-							<form:errors path="photo" element="span"
+							<img class="img-fluid" id="imgPreview"
+								src="${pageContext.request.contextPath}/upload/${accountModel.photo}"
+								alt="" style="border: 1px solid #ccc;"> <label>Hình
+								ảnh</label>
+							<form:input type="file" path="imageFile" />
+							<form:errors path="imageFile" element="span"
 								cssClass="text-danger d-block" />
 						</div>
 						<div class="col-9">
@@ -122,12 +124,6 @@ a {
 								<label>Tên người dùng</label>
 								<form:input path="fullname" class="form-control" />
 								<form:errors path="fullname" element="span"
-									cssClass="text-danger d-block" />
-							</div>
-							<div class="form-group">
-								<label>Password</label>
-								<form:password path="password" class="form-control" />
-								<form:errors path="password" element="span"
 									cssClass="text-danger d-block" />
 							</div>
 							<div class="form-group">
@@ -178,7 +174,7 @@ a {
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script type="text/javascript">
 		 $(document).ready(() => {
-		        $('#photo').change(function () {
+		        $('#imageFile').change(function () {
 		            const file = this.files[0];
 		            if (file) {
 		                let reader = new FileReader();

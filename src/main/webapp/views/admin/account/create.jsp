@@ -102,13 +102,13 @@ a {
 				<h3 class="text-center">Thêm người dùng</h3>
 				<form:form
 					action="${pageContext.request.contextPath}/admin/account/store"
-					modelAttribute="accountModel">
+					modelAttribute="accountModel" enctype="multipart/form-data">
 					<div class="row">
 						<div class="col-3">
 							<img class="img-fluid" id="imgPreview" src="" alt=""
 								style="border: 1px solid #ccc;"> <label>Hình ảnh</label>
-							<form:input type="file" path="photo" />
-							<form:errors path="photo" element="span"
+							<form:input type="file" path="imageFile" />
+							<form:errors path="imageFile" element="span"
 								cssClass="text-danger d-block" />
 						</div>
 						<div class="col-9">
@@ -178,7 +178,7 @@ a {
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script type="text/javascript">
 		 $(document).ready(() => {
-		        $('#photo').change(function () {
+		        $('#imageFile').change(function () {
 		            const file = this.files[0];
 		            if (file) {
 		                let reader = new FileReader();

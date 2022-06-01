@@ -107,8 +107,8 @@ a {
 						<div class="col-3">
 							<img class="img-fluid" id="imgPreview" src="" alt=""
 								style="border: 1px solid #ccc;"> <label>Hình ảnh</label>
-							<input type="file" name="image" id="image">
-							<form:errors path="image" element="span"
+							<form:input type="file" path="imageFile" cssClass="form-control" />
+							<form:errors path="imageFile" element="span"
 								cssClass="text-danger d-block" />
 						</div>
 						<div class="col-9">
@@ -167,7 +167,7 @@ a {
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script type="text/javascript">
 		 $(document).ready(() => {
-		        $('#image').change(function () {
+		        $('#imageFile').change(function () {
 		            const file = this.files[0];
 		            if (file) {
 		                let reader = new FileReader();

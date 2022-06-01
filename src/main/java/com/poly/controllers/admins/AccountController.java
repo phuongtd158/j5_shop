@@ -4,88 +4,116 @@ import com.poly.entities.Account;
 import com.poly.mappers.AccountMapper;
 import com.poly.models.AccountModel;
 import com.poly.services.AccountService;
+import com.poly.utilities.EncryptUtils;
+import com.poly.utilities.UploadFileUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/admin/account")
 public class AccountController {
 
-    @Autowired
-    private AccountService accountService;
+	@Autowired
+	private AccountService accountService;
 
-    @Autowired
-    private AccountMapper accountMapper;
+	@Autowired
+	private AccountMapper accountMapper;
 
-    @GetMapping("index")
-    public String index(Model model) {
-        List<Account> listAccounts = this.accountService.findAllActive();
+	@Autowired
+	private UploadFileUtils uploadFileUtils;
 
-        model.addAttribute("listAccounts", listAccounts);
+	@Autowired
+	private EncryptUtils encryptUtils;
 
-        return "/admin/account/index";
-    }
+	@GetMapping("index")
+	public String index(Model model) {
+		List<Account> listAccounts = this.accountService.findAllActive();
 
-    @GetMapping("create")
-    public String create(@ModelAttribute("accountModel") AccountModel accountModel) {
-        return "/admin/account/create";
-    }
+		model.addAttribute("listAccounts", listAccounts);
 
-    @PostMapping("store")
-    public String store(AccountModel accountModel) {
+		return "/admin/account/index";
+	}
 
-        Account account = this.accountMapper.convertToEntity(accountModel);
+	@GetMapping("create")
+	public String create(@ModelAttribute("accountModel") AccountModel accountModel) {
+		return "/admin/account/create";
+	}
 
-        account.setActivated(accountModel.getActivated());
-        account.setAdmin(accountModel.getAdmin());
-        account.setEmail(accountModel.getEmail());
-        account.setFullName(accountModel.getFullname());
-        account.setPassword(accountModel.getPassword());
-        account.setUsername(accountModel.getUsername());
-        account.setPhoto(accountModel.getPhoto());
+	@PostMapping("store")
+	public String store(@Valid AccountModel accountModel, BindingResult result) {
 
-        this.accountService.save(account);
-        return "redirect:/admin/account/index";
-    }
+		Account account = this.accountMapper.convertToEntity(accountModel);
+		String passwordEncrypt = encryptUtils.encrypt(accountModel.getPassword());
 
-    @GetMapping("edit/{id}")
-    public String edit(Model model, @PathVariable("id") Account account) {
-        AccountModel accountModel = this.accountMapper.convertToDTO(account);
-        model.addAttribute("accountModel", accountModel);
-        return "/admin/account/edit";
-    }
+		if (result.hasErrors()) {
+			return "/admin/account/create";
+		}
 
-    @PostMapping("update/{id}")
-    public String update(@PathVariable("id") Integer id, AccountModel accountModel) {
+		if (!accountModel.getImageFile().isEmpty()) {
+			account.setPhoto(uploadFileUtils.uploadFile(accountModel.getImageFile()));
+		}
 
-        Account account = this.accountService.getById(id);
+		account.setActivated(accountModel.getActivated());
+		account.setAdmin(accountModel.getAdmin());
+		account.setEmail(accountModel.getEmail());
+		account.setFullName(accountModel.getFullname());
+		account.setPassword(passwordEncrypt);
+		account.setUsername(accountModel.getUsername());
 
-        account.setActivated(accountModel.getActivated());
-        account.setAdmin(accountModel.getAdmin());
-        account.setEmail(accountModel.getEmail());
-        account.setFullName(accountModel.getFullname());
-        account.setPassword(accountModel.getPassword());
-        account.setUsername(accountModel.getUsername());
-        account.setPhoto(accountModel.getPhoto());
+		this.accountService.save(account);
 
-        this.accountService.save(account);
+		return "redirect:/admin/account/index";
+	}
 
-        return "redirect:/admin/account/index";
-    }
+	@GetMapping("edit/{id}")
+	public String edit(Model model, @PathVariable("id") Account account) {
+		AccountModel accountModel = this.accountMapper.convertToDTO(account);
+		model.addAttribute("accountModel", accountModel);
+		return "/admin/account/edit";
+	}
 
-    @GetMapping("delete/{id}")
-    public String delete(@PathVariable("id") Integer id) {
+	@PostMapping("update/{id}")
+	public String update(@PathVariable("id") Integer id, @Valid AccountModel accountModel, BindingResult result) {
 
-        Account account = this.accountService.getById(id);
+		Account account = this.accountService.getById(id);
 
-        account.setActivated(0);
+		if (result.hasErrors()) {
+			return "/admin/account/edit";
+		}
 
-        this.accountService.save(account);
+		if (!accountModel.getImageFile().isEmpty()) {
+			account.setPhoto(uploadFileUtils.uploadFile(accountModel.getImageFile()));
+		}
 
-        return "redirect:/admin/account/index";
-    }
+		account.setActivated(accountModel.getActivated());
+		account.setAdmin(accountModel.getAdmin());
+		account.setEmail(accountModel.getEmail());
+		account.setFullName(accountModel.getFullname());
+		account.setPassword(account.getPassword());
+		account.setUsername(accountModel.getUsername());
+
+		this.accountService.save(account);
+
+		return "redirect:/admin/account/index";
+	}
+
+	@GetMapping("delete/{id}")
+	public String delete(@PathVariable("id") Integer id) {
+
+		Account account = this.accountService.getById(id);
+
+		account.setActivated(0);
+
+		this.accountService.save(account);
+
+		return "redirect:/admin/account/index";
+	}
 }
