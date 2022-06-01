@@ -15,36 +15,34 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AccountModel {
 
-	private Integer id;
+    private Integer id;
 
-	@NotNull
-	@NotBlank
-	private String username;
+    @NotNull
+    @NotBlank
+    private String username;
 
-	@NotNull
-	@NotBlank
-	private String fullname;
+    @NotNull
+    @NotBlank
+    private String fullname;
 
-	@NotNull
-	@NotBlank
-	@Email
-	private String email;
+    @NotNull
+    @NotBlank
+    @Email
+    private String email;
 
-	@NotNull
-	@NotBlank
-	private String password;
+    @NotNull
+    @NotBlank
+    private String password;
 
 //	@NotNull
 //	@NotBlank
 //	private String passwordConfirm;
 
-	@NotNull
-	@NotBlank
-	private String photo;
+    private String photo;
 
-	@NotNull
-	private Integer admin;
+    @NotNull
+    private Integer admin;
 
-	@NotNull
-	private Integer activated;
+    @NotNull
+    private Integer activated;
 }

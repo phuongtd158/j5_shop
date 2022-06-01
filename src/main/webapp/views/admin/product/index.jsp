@@ -121,13 +121,13 @@ a {
 						</div>
 					</div>
 					<div class="col">
-						<a href="/Assignment_Java4/admin/product/create" class="text-dark">
+						<a href="${pageContext.request.contextPath}/admin/product/create" class="text-dark">
 							<i class='bx bx-folder-plus fs-5'></i> Thêm sản phẩm
 						</a>
 					</div>
 					<div class="col-4">
 						<i class='bx bx-box fs-5'></i> Tổng sản phẩm <span
-							class='text-danger'>${count}</span>
+							class='text-danger'>${countProducts}</span>
 					</div>
 				</div>
 			</div>
@@ -137,83 +137,56 @@ a {
 				<thead class="table-dark">
 					<tr>
 						<th>STT</th>
-						<th>Danh mục</th>
 						<th>Tên sản phẩm</th>
-						<th>Màu sắc</th>
-						<th>Size</th>
-						<th>Số lượng</th>
+						<th>Danh mục</th>
 						<th>Giá</th>
-						<th>Mô tả</th>
 						<th>Hình ảnh</th>
 						<th>Thời gian tạo</th>
-						<th>Thời gian cập nhật</th>
 						<th>Hành động</th>
 					</tr>
 				</thead>
 				<tbody>
-					<%-- <c:forEach items="${listPro}" var="product" varStatus="counter">
-            <tr class="align-middle">
-                <td>${counter.count}</td>
-                <td>${product.categoriesByCategoryId.name}</td>
-                <td>${product.productName}</td>
-                <td>
-                    <select name="listColor" class="form-select">
-                        <c:forEach items="${product.productColorsById}" var="productColor">
-                            <option value="${productColor.colorByColorId.id}">${productColor.colorByColorId.colorName}</option>
-                        </c:forEach>
-                    </select>
-                </td>
-                <td>
-                    <select name="listSize" class="form-select">
-                        <c:forEach items="${product.productSizesById}" var="productSize">
-                            <option value="${productSize.sizeBySizeId.id}">${productSize.sizeBySizeId.sizeName}</option>
-                        </c:forEach>
-                    </select>
-                </td>
-                <td>${product.quantity}</td>
-                <td><fmt:formatNumber value="${product.price}" pattern="#,###,###"/></td>
-                <td style="width: 500px">
-                    <div id="noteCell" style="width:100%; max-height:70px; overflow:auto;">
-                            ${product.notes}
-                    </div>
-                </td>
-                <td>
-                    <img src="/Assignment_Java4/upload/${product.image}" width="70px" alt="">
-                </td>
-                <td>${product.createdAt}</td>
-                <td>${product.updatedAt}</td>
-                <td>
-                    <a class="btn btn-warning" href="/Assignment_Java4/admin/product/edit?id=${product.id}">Sửa</a>
-                    <a
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal${product.id}"
-                            class="btn btn-danger">Xóa</a>
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal${product.id}" tabindex="-1"
-                         aria-labelledby="exampleModalLabel"
-                         aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Xóa</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Bạn có muốn xóa sản phẩm ${product.productName} không ?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
-                                    </button>
-                                    <a type="button" id="btnDelete" class="btn btn-primary"
-                                       href="/Assignment_Java4/admin/product/delete?id=${product.id}">Xóa</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </c:forEach> --%>
+					<c:forEach items="${listProducts}" var="product"
+						varStatus="counter">
+						<tr class="align-middle">
+							<td>${counter.count}</td>
+							<td>${product.name}</td>
+							<td>${product.categoryById.name}</td>
+							<td>
+								<fmt:formatNumber value="${product.price}" pattern="#,###,###" />
+							</td>
+							<td>
+								<img src="${pageContext.request.contextPath}/upload/${product.image}" width="70px" alt="">
+							</td>
+							<td>${product.createDate}</td>
+							<td><a class="btn btn-warning"
+								href="${pageContext.request.contextPath}/admin/product/edit/${product.id}">Sửa</a>
+								<a data-bs-toggle="modal"
+								data-bs-target="#exampleModal${product.id}"
+								class="btn btn-danger">Xóa</a> <!-- Modal -->
+								<div class="modal fade" id="exampleModal${product.id}"
+									tabindex="-1" aria-labelledby="exampleModalLabel"
+									aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">Xóa</h5>
+												<button type="button" class="btn-close"
+													data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">Bạn có muốn xóa sản phẩm
+												${product.name} không ?</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-bs-dismiss="modal">Close</button>
+												<a type="button" id="btnDelete" class="btn btn-primary"
+													href="${pageContext.request.contextPath}/admin/product/delete/${product.id}">Xóa</a>
+											</div>
+										</div>
+									</div>
+								</div></td>
+						</tr>
+					</c:forEach>
 				</tbody>
 			</table>
 		</div>

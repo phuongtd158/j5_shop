@@ -2,6 +2,10 @@ package com.poly.models;
 
 import java.sql.Date;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import com.poly.entities.Category;
 
 import lombok.AllArgsConstructor;
@@ -14,17 +18,23 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductModel {
-	private int id;
+    private int id;
 
-	private String name;
+    @NotNull(message = "Không được để trống tên")
+    @NotBlank(message = "Không được để trống tên")
+    private String name;
 
-	private String image;
+    private String image;
 
-	private double price;
+    @NotNull(message = "Không được để trống giá")
+    @Min(value = 0, message = "Giá phải lớn hơn 0")
+    private double price;
 
-	private Date createDate;
+    private Date createDate;
 
-	private int available;
+    @NotNull
+    private int available;
 
-	private Category categoryById;
+    @NotNull(message = "Không được để trống danh mục")
+    private Category categoryById;
 }

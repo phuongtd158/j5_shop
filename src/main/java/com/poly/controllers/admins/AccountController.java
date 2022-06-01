@@ -1,44 +1,91 @@
 package com.poly.controllers.admins;
 
+import com.poly.entities.Account;
+import com.poly.mappers.AccountMapper;
+import com.poly.models.AccountModel;
+import com.poly.services.AccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/account")
 public class AccountController {
-	
-	@GetMapping("index")
-	public String index(Model model) {
 
-		
+    @Autowired
+    private AccountService accountService;
 
-		return "/admin/category/index";
-	}
+    @Autowired
+    private AccountMapper accountMapper;
 
-	@PostMapping("store")
-	public String store() {
+    @GetMapping("index")
+    public String index(Model model) {
+        List<Account> listAccounts = this.accountService.findAllActive();
 
-		return "redirect:/admin/category/index";
-	}
+        model.addAttribute("listAccounts", listAccounts);
 
-	@GetMapping("edit/{id}")
-	public String edit() {
+        return "/admin/account/index";
+    }
 
-		return "/admin/category/index";
-	}
+    @GetMapping("create")
+    public String create(@ModelAttribute("accountModel") AccountModel accountModel) {
+        return "/admin/account/create";
+    }
 
-	@PostMapping("update/{id}")
-	public String update() {
+    @PostMapping("store")
+    public String store(AccountModel accountModel) {
 
-		return "redirect:/admin/category/index";
-	}
+        Account account = this.accountMapper.convertToEntity(accountModel);
 
-	@GetMapping("delete/{id}")
-	public String delete() {
+        account.setActivated(accountModel.getActivated());
+        account.setAdmin(accountModel.getAdmin());
+        account.setEmail(accountModel.getEmail());
+        account.setFullName(accountModel.getFullname());
+        account.setPassword(accountModel.getPassword());
+        account.setUsername(accountModel.getUsername());
+        account.setPhoto(accountModel.getPhoto());
 
-		return "redirect:/admin/category/index";
-	}
+        this.accountService.save(account);
+        return "redirect:/admin/account/index";
+    }
+
+    @GetMapping("edit/{id}")
+    public String edit(Model model, @PathVariable("id") Account account) {
+        AccountModel accountModel = this.accountMapper.convertToDTO(account);
+        model.addAttribute("accountModel", accountModel);
+        return "/admin/account/edit";
+    }
+
+    @PostMapping("update/{id}")
+    public String update(@PathVariable("id") Integer id, AccountModel accountModel) {
+
+        Account account = this.accountService.getById(id);
+
+        account.setActivated(accountModel.getActivated());
+        account.setAdmin(accountModel.getAdmin());
+        account.setEmail(accountModel.getEmail());
+        account.setFullName(accountModel.getFullname());
+        account.setPassword(accountModel.getPassword());
+        account.setUsername(accountModel.getUsername());
+        account.setPhoto(accountModel.getPhoto());
+
+        this.accountService.save(account);
+
+        return "redirect:/admin/account/index";
+    }
+
+    @GetMapping("delete/{id}")
+    public String delete(@PathVariable("id") Integer id) {
+
+        Account account = this.accountService.getById(id);
+
+        account.setActivated(0);
+
+        this.accountService.save(account);
+
+        return "redirect:/admin/account/index";
+    }
 }

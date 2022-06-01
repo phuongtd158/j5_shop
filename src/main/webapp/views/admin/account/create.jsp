@@ -87,8 +87,9 @@ a {
 				</div>
 			</div>
 
-			<a href="${pageContext.request.contextPath}/logout" class="nav__link nav__logout">
-				<i class='bx bx-log-out nav__icon'></i> <span class="nav__name">Đăng
+			<a href="${pageContext.request.contextPath}/logout"
+				class="nav__link nav__logout"> <i
+				class='bx bx-log-out nav__icon'></i> <span class="nav__name">Đăng
 					xuất</span>
 			</a>
 		</nav>
@@ -98,42 +99,64 @@ a {
 	<main style="margin-top: 50px">
 		<div class="container">
 			<div class="row">
-				<h3 class="text-center">Thêm danh sản phẩm</h3>
+				<h3 class="text-center">Thêm người dùng</h3>
 				<form:form
-					action="${pageContext.request.contextPath}/admin/product/store"
-					modelAttribute="productModel">
-					<div class="form-group">
-						<label>Tên sản phẩm</label>
-						<form:input path="name" class="form-control" />
-						<form:errors path="name" element="span"
-							cssClass="text-danger d-block" />
+					action="${pageContext.request.contextPath}/admin/account/store"
+					modelAttribute="accountModel">
+					<div class="row">
+						<div class="col-3">
+							<img class="img-fluid" id="imgPreview" src="" alt=""
+								style="border: 1px solid #ccc;"> <label>Hình ảnh</label>
+							<form:input type="file" path="photo" />
+							<form:errors path="photo" element="span"
+								cssClass="text-danger d-block" />
+						</div>
+						<div class="col-9">
+							<div class="form-group">
+								<label>Tên tài khoản</label>
+								<form:input path="username" class="form-control" />
+								<form:errors path="username" element="span"
+									cssClass="text-danger d-block" />
+							</div>
+							<div class="form-group">
+								<label>Tên người dùng</label>
+								<form:input path="fullname" class="form-control" />
+								<form:errors path="fullname" element="span"
+									cssClass="text-danger d-block" />
+							</div>
+							<div class="form-group">
+								<label>Password</label>
+								<form:password path="password" class="form-control" />
+								<form:errors path="password" element="span"
+									cssClass="text-danger d-block" />
+							</div>
+							<div class="form-group">
+								<label>Email</label>
+								<form:input type="email" path="email" class="form-control" />
+								<form:errors path="email" element="span"
+									cssClass="text-danger d-block" />
+							</div>
+							<div class="form-group">
+								<label>Activated</label>
+								<form:select path="activated" class="form-select">
+									<option value="1">Activated</option>
+									<option value="0">Inactivated</option>
+								</form:select>
+								<form:errors path="activated" element="span"
+									cssClass="text-danger d-block" />
+							</div>
+							<div class="form-group">
+								<label>Vai trò</label>
+								<form:select path="admin" class="form-select">
+									<option value="1">Admin</option>
+									<option value="0">User</option>
+								</form:select>
+								<form:errors path="admin" element="span"
+									cssClass="text-danger d-block" />
+							</div>
+							<button class="btn btn-primary mt-3">Thêm</button>
+						</div>
 					</div>
-					<div class="form-group">
-						<label>Danh mục</label>
-						<form:select path="categoryById" class="form-select">
-							<c:forEach items="${listCategories}" var="category">
-								<option value="${category.id}">${category.name}</option>
-							</c:forEach>
-						</form:select>
-						<form:errors path="categoryById" element="span"
-							cssClass="text-danger d-block" />
-					</div>
-					<div class="form-group">
-						<label>Giá</label>
-						<form:input path="price" class="form-control" />
-						<form:errors path="price" element="span"
-							cssClass="text-danger d-block" />
-					</div>
-					<div class="form-group">
-						<label>Available</label>
-						<form:select path="available" class="form-select">
-							<option value="1">Available</option>
-							<option value="0">Unavailable</option>
-						</form:select>
-						<form:errors path="available" element="span"
-							cssClass="text-danger d-block" />
-					</div>
-					<button class="btn btn-primary mt-3">Thêm</button>
 				</form:form>
 			</div>
 		</div>
@@ -153,5 +176,20 @@ a {
 		src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"
 		integrity="sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script type="text/javascript">
+		 $(document).ready(() => {
+		        $('#photo').change(function () {
+		            const file = this.files[0];
+		            if (file) {
+		                let reader = new FileReader();
+		                reader.onload = function (event) {
+		                    console.log(event.target.result);
+		                    $('#imgPreview').attr('src', event.target.result);
+		                }
+		                reader.readAsDataURL(file);
+		            }
+		        });
+		    });
+		</script>
 </body>
 </html>

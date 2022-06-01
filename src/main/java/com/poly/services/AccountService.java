@@ -76,4 +76,6 @@ public interface AccountService {
 
 	<S extends Account> S save(S entity);
 
+	List<Account> findAllActive();
+
 }

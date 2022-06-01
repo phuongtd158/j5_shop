@@ -180,6 +180,7 @@ public class AccountServiceImpl implements AccountService {
 		return accountRepository.findAll(example, sort);
 	}
 	
+	@Override
 	public List<Account> findAllActive() {
 		return accountRepository.findAllActive();
 	}

@@ -36,7 +36,7 @@ a {
 		<div class="header__container">
 			<%--        <img src="/Assignment_Java4/assets/admin/img/perfil.jpg" alt="" class="header__img">--%>
 			<%-- 	<a href="#" class="header__logo">Admin</a> <span>Xin chào,
-				${sessionScope.user.fullName}</span> --%>
+            ${sessionScope.user.fullName}</span> --%>
 			<div class="header__toggle">
 				<i class='bx bx-menu' id="header-toggle"></i>
 			</div>
@@ -99,62 +99,51 @@ a {
 	<main style="margin-top: 50px">
 		<div class="container">
 			<div class="row">
-				<h3 class="text-center">Cập nhật người dùng</h3>
+				<h3 class="text-center">Thêm danh sản phẩm</h3>
 				<form:form
-					action="${pageContext.request.contextPath}/admin/account/update/${accountModel.id}"
-					modelAttribute="accountModel">
+					action="${pageContext.request.contextPath}/admin/product/store"
+					modelAttribute="productModel" enctype="multipart/form-data">
 					<div class="row">
 						<div class="col-3">
 							<img class="img-fluid" id="imgPreview" src="" alt=""
 								style="border: 1px solid #ccc;"> <label>Hình ảnh</label>
-							<form:input type="file" path="photo" />
-							<form:errors path="photo" element="span"
+							<input type="file" name="image" id="image">
+							<form:errors path="image" element="span"
 								cssClass="text-danger d-block" />
 						</div>
 						<div class="col-9">
 							<div class="form-group">
-								<label>Tên tài khoản</label>
-								<form:input path="username" class="form-control" />
-								<form:errors path="username" element="span"
+								<label>Tên sản phẩm</label>
+								<form:input path="name" class="form-control" />
+								<form:errors path="name" element="span"
 									cssClass="text-danger d-block" />
 							</div>
 							<div class="form-group">
-								<label>Tên người dùng</label>
-								<form:input path="fullname" class="form-control" />
-								<form:errors path="fullname" element="span"
-									cssClass="text-danger d-block" />
-							</div>
-							<div class="form-group">
-								<label>Password</label>
-								<form:password path="password" class="form-control" />
-								<form:errors path="password" element="span"
-									cssClass="text-danger d-block" />
-							</div>
-							<div class="form-group">
-								<label>Email</label>
-								<form:input type="email" path="email" class="form-control" />
-								<form:errors path="email" element="span"
-									cssClass="text-danger d-block" />
-							</div>
-							<div class="form-group">
-								<label>Activated</label>
-								<form:select path="activated" class="form-select">
-									<option value="1">Activated</option>
-									<option value="0">Inactivated</option>
+								<label>Danh mục</label>
+								<form:select path="categoryById" class="form-select">
+									<c:forEach items="${listCategories}" var="category">
+										<option value="${category.id}">${category.name}</option>
+									</c:forEach>
 								</form:select>
-								<form:errors path="activated" element="span"
+								<form:errors path="categoryById" element="span"
 									cssClass="text-danger d-block" />
 							</div>
 							<div class="form-group">
-								<label>Vai trò</label>
-								<form:select path="admin" class="form-select">
-									<option value="1">Admin</option>
-									<option value="0">User</option>
-								</form:select>
-								<form:errors path="admin" element="span"
+								<label>Giá</label>
+								<form:input path="price" class="form-control" />
+								<form:errors path="price" element="span"
 									cssClass="text-danger d-block" />
 							</div>
-							<button class="btn btn-primary mt-3">Cập nhật</button>
+							<div class="form-group">
+								<label>Available</label>
+								<form:select path="available" class="form-select">
+									<option value="1">Available</option>
+									<option value="0">Unavailable</option>
+								</form:select>
+								<form:errors path="available" element="span"
+									cssClass="text-danger d-block" />
+							</div>
+							<button class="btn btn-primary mt-3">Thêm</button>
 						</div>
 					</div>
 				</form:form>
@@ -178,7 +167,7 @@ a {
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script type="text/javascript">
 		 $(document).ready(() => {
-		        $('#photo').change(function () {
+		        $('#image').change(function () {
 		            const file = this.files[0];
 		            if (file) {
 		                let reader = new FileReader();
