@@ -2,9 +2,15 @@ package com.poly.controllers.admins;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,7 +19,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.poly.entities.Account;
 import com.poly.entities.Category;
 import com.poly.mappers.CategoryMapper;
 import com.poly.models.CategoryModel;
@@ -27,13 +35,35 @@ public class CategoryController {
 	private CategoryService categoryService;
 
 	@Autowired
-	private CategoryMapper mapper;;
+	private CategoryMapper mapper;
+
+	@Autowired
+	private HttpServletRequest request;
 
 	@GetMapping("index")
-	public String index(Model model) {
+	public String index(Model model, @RequestParam(name = "p", defaultValue = "0") Integer page,
+			@RequestParam(name = "size", defaultValue = "10") Integer size) {
 
-		List<Category> listCategories = this.categoryService.findAllActive();
-		model.addAttribute("listCategories", listCategories);
+		String sortBy = this.request.getParameter("sort_by");
+		Sort sort = Sort.by(Direction.ASC, "id");
+		Page<Category> pageData = null;
+		List<Category> lisCategories;
+
+		if (sortBy != null) {
+
+			sort = Sort.by(Direction.ASC, sortBy);
+
+			lisCategories = this.categoryService.findAllActive(sort);
+
+		} else {
+			lisCategories = this.categoryService.findAllActive();
+		}
+
+		Pageable pageable = PageRequest.of(page, size, sort);
+		pageData = this.categoryService.findAllActive(pageable);
+
+		model.addAttribute("listCategories", pageData);
+		model.addAttribute("sortBy", sortBy);
 
 		return "/admin/category/index";
 	}

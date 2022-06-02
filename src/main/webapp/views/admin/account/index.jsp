@@ -15,9 +15,6 @@
 	href="${pageContext.request.contextPath}/css/admin_styles.scss">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/bootstrap.min.css">
-<link
-	href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-	rel="stylesheet" />
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css"
 	integrity="sha512-oe8OpYjBaDWPt2VmSFR+qYOdnTjeV9QPLJUeqZyprDEQvQLJ9C5PCFclxwNuvb/GQgQngdCXzKSFltuHD3eCxA=="
@@ -86,8 +83,9 @@ a {
 				</div>
 			</div>
 
-			<a href="${pageContext.request.contextPath}/logout" class="nav__link nav__logout">
-				<i class='bx bx-log-out nav__icon'></i> <span class="nav__name">Đăng
+			<a href="${pageContext.request.contextPath}/logout"
+				class="nav__link nav__logout"> <i
+				class='bx bx-log-out nav__icon'></i> <span class="nav__name">Đăng
 					xuất</span>
 			</a>
 		</nav>
@@ -111,17 +109,22 @@ a {
 			<div class="col-5 justify-content-end">
 				<div class="row align-items-center">
 					<div class="col-5">
-						<div class="form-group">
-							<select class="form-select" name="filter-categories"
-								id="filter-categories">
-								<option selected disabled>Bộ lọc</option>
-								<option value="">312321</option>
-							</select>
-						</div>
+						<form method="GET"
+							action="${pageContext.request.contextPath}/admin/account/index">
+							<div class="form-group">
+								<select class="form-select" name="sort_by" onchange="this.form.submit()">
+									<option value="id" ${sortBy == 'id' ? 'selected' : ''}>Mặc định</option>
+									<option value="username" ${sortBy == 'username' ? 'selected' : ''}>Họ tên</option>
+									<option value="email" ${sortBy == 'email' ? 'selected' : ''}>Email</option>
+									<option value="admin" ${sortBy == 'admin' ? 'selected' : ''}>Tài khoản</option>
+								</select>
+							</div>
+						</form>
 					</div>
 					<div class="col">
-						<a href="${pageContext.request.contextPath}/admin/account/create" class="text-dark">
-							<i class='bx bx-folder-plus fs-5'></i> Thêm người dùng
+						<a href="${pageContext.request.contextPath}/admin/account/create"
+							class="text-dark"> <i class='bx bx-folder-plus fs-5'></i>
+							Thêm người dùng
 						</a>
 					</div>
 					<div class="col-4">
@@ -144,21 +147,22 @@ a {
 					<th>Hành động</th>
 				</thead>
 				<tbody>
-					<c:forEach items="${listAccounts}" var="account"
+					<c:forEach items="${listAccounts.content}" var="account"
 						varStatus="counter">
 						<tr class="align-middle">
 							<td>${counter.count}</td>
 							<td>${account.username}</td>
 							<td>${account.fullName}</td>
 							<td>${account.email}</td>
-							<td>
-								<img src="${pageContext.request.contextPath}/upload/${account.photo}" width="70px" alt="">
-							</td>
+							<td><img
+								src="${pageContext.request.contextPath}/upload/${account.photo}"
+								width="70px" alt=""></td>
 							<td>${account.activated == 1 ? 'Activated' : 'Inactivated'}</td>
 							<td>${account.admin == 1 ? 'Admin' : 'User'}</td>
 							<td><a class="btn btn-warning"
-								href="${pageContext.request.contextPath}/admin/account/edit/${account.id}">Sửa</a> <a
-								data-bs-toggle="modal" data-bs-target="#exampleModal${account.id}"
+								href="${pageContext.request.contextPath}/admin/account/edit/${account.id}">Sửa</a>
+								<a data-bs-toggle="modal"
+								data-bs-target="#exampleModal${account.id}"
 								class="btn btn-danger">Xóa</a> <!-- Modal -->
 								<div class="modal fade" id="exampleModal${account.id}"
 									tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -185,6 +189,26 @@ a {
 					</c:forEach>
 				</tbody>
 			</table>
+			<nav aria-label="...">
+				<ul class="pagination justify-content-center">
+					<li class="page-item"><a class="page-link"
+						href="${pageContext.request.contextPath}/admin/account/index">First</a>
+					</li>
+					<li
+						class="page-item ${listAccounts.number == 0 ? 'disabled' : '' }"><a
+						class="page-link"
+						href="${pageContext.request.contextPath}/admin/account/index?p=${listAccounts.number-1}">
+							<< </a></li>
+					<li
+						class="page-item ${listAccounts.number == listAccounts.totalPages-1 ? 'disabled' : '' }"
+						aria-current="page"><a class="page-link"
+						href="${pageContext.request.contextPath}/admin/account/index?p=${listAccounts.number+1}">
+							>> </a></li>
+					<li class="page-item"><a class="page-link"
+						href="${pageContext.request.contextPath}/admin/account/index?p=${listAccounts.totalPages-1}">Last</a>
+					</li>
+				</ul>
+			</nav>
 		</div>
 	</main>
 
@@ -196,8 +220,6 @@ a {
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
 		integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"
 		integrity="sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ=="

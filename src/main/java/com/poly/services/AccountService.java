@@ -77,5 +77,9 @@ public interface AccountService {
 	<S extends Account> S save(S entity);
 
 	List<Account> findAllActive();
+	
+	List<Account> findAllActive(Sort sort);
+	
+	Page<Account> findAllActive(Pageable pageable);
 
 }

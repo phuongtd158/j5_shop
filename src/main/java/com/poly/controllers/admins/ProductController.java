@@ -7,9 +7,15 @@ import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,13 +51,30 @@ public class ProductController {
 	@Autowired
 	private UploadFileUtils uploadFileUtils;
 
+	@Autowired
+	private HttpServletRequest request;
+
 	@GetMapping("index")
-	public String index(Model model) {
+	public String index(Model model, @RequestParam(name = "p", defaultValue = "0") Integer page,
+			@RequestParam(name = "size", defaultValue = "10") Integer size) {
 
-		List<Product> listProducts = this.productService.findAllActive();
-		int countProducts = listProducts.size();
+		List<Product> listProducts;
+		Sort sort = Sort.by(Direction.ASC, "id");
+		int countProducts = this.productService.findAllActive().size();
+		String sortBy = this.request.getParameter("sort_by");
 
-		model.addAttribute("listProducts", listProducts);
+		if (sortBy != null) {
+			sort = Sort.by(Direction.ASC, sortBy);
+			
+			listProducts = this.productService.findAllActive(sort);
+		}else {
+			listProducts = this.productService.findAllActive();
+		}
+
+		Pageable pageable = PageRequest.of(page, size, sort);
+		Page<Product> data = this.productService.findAllActive(pageable);
+
+		model.addAttribute("listProducts", data);
 		model.addAttribute("countProducts", countProducts);
 
 		return "/admin/product/index";
@@ -101,6 +124,7 @@ public class ProductController {
 
 		ProductModel productModel = this.mapper.convertToDTO(product);
 		List<Category> listCategories = this.categoryService.findAllActive();
+		
 		Category category = this.categoryService.getById(product.getCategoryById().getId());
 
 		model.addAttribute("productModel", productModel);

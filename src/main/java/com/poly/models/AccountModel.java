@@ -19,21 +19,21 @@ public class AccountModel {
 
     private Integer id;
 
-    @NotNull
-    @NotBlank
+    @NotNull(message = "Username không được để trống")
+    @NotBlank(message = "Username không được để trống")
     private String username;
 
-    @NotNull
-    @NotBlank
+    @NotNull(message = "Họ tên không được để trống")
+    @NotBlank(message = "Họ tên không được để trống")
     private String fullname;
 
-    @NotNull
-    @NotBlank
-    @Email
+    @NotNull(message = "Email không được để trống")
+    @NotBlank(message = "Email không được để trống")
+    @Email(message = "Email phải đúng định dạng")
     private String email;
 
-    @NotNull
-    @NotBlank
+    @NotNull(message = "Password không được để trống")
+    @NotBlank(message = "Password không được để trống")
     private String password;
 
 //	@NotNull
@@ -42,10 +42,10 @@ public class AccountModel {
 
     private String photo;
 
-    @NotNull
+    @NotNull(message = "Vai trò không được để trống")
     private Integer admin;
 
-    @NotNull
+    @NotNull(message = "Activted không được để trống")
     private Integer activated;
     
     private MultipartFile imageFile;

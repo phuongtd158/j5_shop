@@ -77,5 +77,9 @@ public interface ProductService {
 	<S extends Product> S save(S entity);
 
 	List<Product> findAllActive();
+	
+	Page<Product> findAllActive(Pageable pageable);
+	
+	List<Product> findAllActive(Sort sort);
 
 }

@@ -15,9 +15,6 @@
 	href="${pageContext.request.contextPath}/css/admin_styles.scss">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/bootstrap.min.css">
-<link
-	href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-	rel="stylesheet" />
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css"
 	integrity="sha512-oe8OpYjBaDWPt2VmSFR+qYOdnTjeV9QPLJUeqZyprDEQvQLJ9C5PCFclxwNuvb/GQgQngdCXzKSFltuHD3eCxA=="
@@ -112,13 +109,15 @@ a {
 				<div class="col-5 justify-content-end">
 					<div class="row align-items-center">
 						<div class="col-5">
+							<form method="GET"
+							action="${pageContext.request.contextPath}/admin/category/index">
 							<div class="form-group">
-								<select class="form-select" name="filter-categories"
-									id="filter-categories">
-									<option selected disabled>Bộ lọc</option>
-									<option value="">312321</option>
+								<select class="form-select" name="sort_by" onchange="this.form.submit()">
+									<option value="id" ${sortBy == 'id' ? 'selected' : ''}>Mặc định</option>
+									<option value="name" ${sortBy == 'name' ? 'selected' : ''}>Tên danh mục</option>
 								</select>
 							</div>
+						</form>
 						</div>
 						<div class="col">
 							<a
@@ -144,7 +143,7 @@ a {
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${listCategories}" var="category"
+						<c:forEach items="${listCategories.content}" var="category"
 							varStatus="counter">
 							<tr class="align-middle">
 								<td>${counter.count}</td>
@@ -179,6 +178,26 @@ a {
 						</c:forEach>
 					</tbody>
 				</table>
+				<nav aria-label="...">
+					<ul class="pagination justify-content-center">
+						<li class="page-item"><a class="page-link"
+							href="${pageContext.request.contextPath}/admin/category/index">First</a>
+						</li>
+						<li
+							class="page-item ${listCategories.number == 0 ? 'disabled' : '' }"><a
+							class="page-link"
+							href="${pageContext.request.contextPath}/admin/category/index?p=${listCategories.number-1}">
+								<< </a></li>
+						<li
+							class="page-item ${listCategories.number == listCategories.totalPages-1 ? 'disabled' : '' }"
+							aria-current="page"><a class="page-link"
+							href="${pageContext.request.contextPath}/admin/category/index?p=${listCategories.number+1}">
+								>> </a></li>
+						<li class="page-item"><a class="page-link"
+							href="${pageContext.request.contextPath}/admin/category/index?p=${listCategories.totalPages-1}">Last</a>
+						</li>
+					</ul>
+				</nav>
 			</div>
 
 		</section>
@@ -193,8 +212,6 @@ a {
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
 		integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"
 		integrity="sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ=="

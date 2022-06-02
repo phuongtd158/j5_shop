@@ -185,4 +185,14 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryRepository.findAllActive();
 	}
 
+	@Override
+	public Page<Category> findAllActive(Pageable pageable) {
+		return categoryRepository.findAllActive(pageable);
+	}
+
+	@Override
+	public List<Category> findAllActive(Sort sort) {
+		return categoryRepository.findAllActive(sort);
+	}
+
 }

@@ -79,4 +79,7 @@ public interface CategoryService {
 
 	List<Category> findAllActive();
 
+	Page<Category> findAllActive(Pageable pageable);
+	
+	List<Category> findAllActive(Sort sort);
 }

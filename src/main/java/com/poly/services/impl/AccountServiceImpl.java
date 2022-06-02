@@ -184,4 +184,15 @@ public class AccountServiceImpl implements AccountService {
 	public List<Account> findAllActive() {
 		return accountRepository.findAllActive();
 	}
+
+	@Override
+	public Page<Account> findAllActive(Pageable pageable) {
+		
+		return accountRepository.findAllActive(pageable);
+	}
+
+	@Override
+	public List<Account> findAllActive(Sort sort) {
+		return accountRepository.findAllActive(sort);
+	}
 }
