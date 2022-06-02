@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,17 +13,31 @@
 	rel="stylesheet">
 
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/animate.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/owl.carousel.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/owl.theme.default.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.fancybox.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/fonts/icomoon/style.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/fonts/flaticon/font/flaticon.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/aos.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/animate.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/owl.carousel.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/owl.theme.default.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/jquery.fancybox.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/fonts/icomoon/style.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/fonts/flaticon/font/flaticon.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/aos.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/style.css">
 
 <title>Insert title here</title>
+<style type="text/css">
+a {
+	text-decoration: none;
+}
+</style>
 </head>
 <body>
 
@@ -66,49 +81,44 @@
 
 			<div class="container position-relative">
 				<div class="site-navigation text-center dark">
-					<a href="index.html" class="logo menu-absolute m-0">UntreeStore<span
+					<a href="${pageContext.request.contextPath}/home"
+						class="logo menu-absolute m-0">UntreeStore<span
 						class="text-primary">.</span></a>
 
 					<ul class="js-clone-nav pl-0 d-none d-lg-inline-block site-menu">
-						<li class="active"><a href="shop.html">Home</a></li>
-						<li class="has-children"><a href="shop.html">Shop</a>
-							<ul class="dropdown">
-								<li><a href="#">T-Shirt</a></li>
-								<li><a href="#">Underware</a></li>
-								<li><a href="#">Clothing</a></li>
-								<li><a href="#">Watches</a></li>
-								<li><a href="#">Shoes</a></li>
-							</ul></li>
-						<li class="has-children"><a href="#">Pages</a>
-							<ul class="dropdown">
-								<li><a href="elements.html">Elements</a></li>
-								<li><a href="about.html">About</a></li>
-								<li><a href="contact.html">Contact</a></li>
-								<li><a href="cart.html">Cart</a></li>
-								<li><a href="checkout.html">Checkout</a></li>
+						<li><a href="${pageContext.request.contextPath}/home">Home</a></li>
+						<li><a href="${pageContext.request.contextPath}/shop">Shop</a></li>
+						<li><a href="${pageContext.request.contextPath}/about">About</a></li>
+						<li><a href="${pageContext.request.contextPath}/contact">Contact</a></li>
+						<%--						<li class="has-children"><a href="${pageContext.request.contextPath}/shop">Shop</a>--%>
+						<%--							<ul class="dropdown">--%>
+						<%--								<li><a href="#">T-Shirt</a></li>--%>
+						<%--								<li><a href="#">Underware</a></li>--%>
+						<%--								<li><a href="#">Clothing</a></li>--%>
+						<%--								<li><a href="#">Watches</a></li>--%>
+						<%--								<li><a href="#">Shoes</a></li>--%>
+						<%--							</ul></li>--%>
+						<%--						<li class="has-children"><a href="#">Pages</a>--%>
+						<%--							<ul class="dropdown">--%>
+						<%--								<li><a href="${pageContext.request.contextPath}/">Elements</a></li>--%>
+						<%--								<li><a href="${pageContext.request.contextPath}/">About</a></li>--%>
+						<%--								<li><a href="${pageContext.request.contextPath}/">Contact</a></li>--%>
+						<%--								<li><a href="${pageContext.request.contextPath}/">Cart</a></li>--%>
+						<%--								<li><a href="${pageContext.request.contextPath}/">Checkout</a></li>--%>
 
-								<li class="has-children"><a href="#">Menu Two</a>
-									<ul class="dropdown">
-										<li><a href="#">T-Shirt</a></li>
-										<li><a href="#">Underware</a></li>
-										<li><a href="#">Clothing</a></li>
-										<li><a href="#">Watches</a></li>
-										<li><a href="#">Shoes</a></li>
+						<%--								<li class="has-children"><a href="#">Menu Two</a>--%>
+						<%--									<ul class="dropdown">--%>
+						<%--										<li><a href="#">T-Shirt</a></li>--%>
+						<%--										<li><a href="#">Underware</a></li>--%>
+						<%--										<li><a href="#">Clothing</a></li>--%>
+						<%--										<li><a href="#">Watches</a></li>--%>
+						<%--										<li><a href="#">Shoes</a></li>--%>
 
-									</ul></li>
-								<li><a href="#">Menu Three</a></li>
-							</ul></li>
-
-						<li><a href="shop.html">Men</a></li>
-						<li><a href="shop.html">Women</a></li>
-
+						<%--									</ul></li>--%>
+						<%--								<li><a href="#">Menu Three</a></li>--%>
+						<%--							</ul></li>--%>
 					</ul>
-
-
-
-
 					<div class="menu-icons">
-
 						<a href="#" class="btn-custom-search" id="btn-search"> <svg
 								width="1em" height="1em" viewBox="0 0 16 16"
 								class="bi bi-search" fill="currentColor"
@@ -124,8 +134,15 @@
 								<path fill-rule="evenodd"
 									d="M13 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM3.022 13h9.956a.274.274 0 0 0 .014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 0 0 .022.004zm9.974.056v-.002.002zM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
 							</svg>
-						</a> <a href="cart.html" class="cart"> <span class="item-in-cart">2</span>
-							<svg width="1em" height="1em" viewBox="0 0 16 16"
+						</a> <a href="${pageContext.request.contextPath}/shopping-cart"
+							class="cart"> <span class="item-in-cart"> <c:if
+									test="${!empty sessionScope.count}">
+							${sessionScope.count}
+							</c:if> <c:if test="${empty sessionScope.count}">
+							0
+							</c:if>
+
+						</span> <svg width="1em" height="1em" viewBox="0 0 16 16"
 								class="bi bi-cart" fill="currentColor"
 								xmlns="http://www.w3.org/2000/svg">
 								<path fill-rule="evenodd"
@@ -146,340 +163,12 @@
 	</nav>
 
 
-	<div class="owl-carousel owl-single home-slider">
-		<div class="item">
-			<div class="untree_co-hero"
-				style="background-image: url('images/hero-slider-1-min.jpg');">
-				<div class="container">
-					<div class="row align-items-center">
-						<div class="col-lg-6">
-
-							<h1 class="mb-4 heading" data-aos="fade-up" data-aos-delay="100">
-								Sell products the easy way with UntreeStore by <a
-									href="https://untree.co">Untree.co</a>
-							</h1>
-							<div class="mb-5 text-white desc mx-auto" data-aos="fade-up"
-								data-aos-delay="200"></div>
-
-							<p class="mb-0" data-aos="fade-up" data-aos-delay="300">
-								<a href="#" class="btn btn-outline-black">Explore now</a>
-							</p>
-
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- /.untree_co-hero -->
-		</div>
-
-
-		<div class="item">
-			<div class="untree_co-hero"
-				style="background-image: url('images/hero-slider-2-min.jpg');">
-				<div class="container">
-					<div class="row align-items-center">
-						<div class="col-lg-6">
-
-							<h1 class="mb-4 heading" data-aos="fade-up" data-aos-delay="100">
-								The New Way To Sell Your Products by <a href="https://untree.co">Untree.co</a>
-							</h1>
-							<div class="mb-5 text-white desc mx-auto" data-aos="fade-up"
-								data-aos-delay="200"></div>
-
-							<p class="mb-0" data-aos="fade-up" data-aos-delay="300">
-								<a href="#" class="btn btn-outline-black">Explore now</a>
-							</p>
-
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- /.untree_co-hero -->
-		</div>
-
-	</div>
 	<!--------------------------Menu-------------------------------->
 
 
 
 	<!--------------------------View-------------------------------->
-	<div class="untree_co-section">
-		<div class="container">
-
-
-			<div class="deal-hero overlay"
-				style="background-image: url('images/hero-slider-4-min.jpg')">
-				<div class="deal-contents">
-					<span class="subtitle">Limited Offers 20% OFF</span>
-					<h2 class="title mb-4">
-						<a href="#">Summer Promo</a>
-					</h2>
-					<p class="mb-5">Lorem ipsum dolor sit amet, consectetur
-						adipisicing elit. Laborum fuga incidunt laboriosam voluptas iure,
-						delectus dignissimos facilis neque nulla earum.</p>
-					<a href="#" class="btn btn-black">Shop Now</a>
-				</div>
-			</div>
-			<!-- /.deal-hero -->
-
-		</div>
-	</div>
-
-	<div class="untree_co-section">
-		<div class="container">
-
-			<div class="row">
-				<div class="col-6 col-sm-6 col-md-6 mb-4 col-lg-4">
-					<div class="product-item">
-						<a href="shop-single.html" class="product-img">
-
-							<div class="label new top-right">
-								<div class='content'>New</div>
-							</div> <img src="images/products/jacket-1-min.jpg" alt="Image"
-							class="img-fluid">
-						</a>
-						<h3 class="title">
-							<a href="#">Dark Jacket</a>
-						</h3>
-						<div class="price">
-							<span>£69.00</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-6 col-sm-6 col-md-6 mb-4 col-lg-4">
-					<div class="product-item">
-						<a href="shop-single.html" class="product-img">
-							<div class="label new top-right">
-								<div class='content'>New</div>
-							</div>
-
-							<div class="label sale top-right second">
-								<div class='content'>Sale</div>
-							</div> <img src="images/products/bottoms-1-min.jpg" alt="Image"
-							class="img-fluid">
-						</a>
-						<h3 class="title">
-							<a href="#">Chino Bottoms</a>
-						</h3>
-						<div class="price">
-							<del>£99.00</del>
-							&mdash; <span>£69.00</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-6 col-sm-6 col-md-6 mb-4 col-lg-4">
-					<div class="product-item">
-						<a href="shop-single.html" class="product-img"> <img
-							src="images/products/shoe-1-min.jpg" alt="Image"
-							class="img-fluid">
-						</a>
-						<h3 class="title">
-							<a href="#">Brown Shoe</a>
-						</h3>
-						<div class="price">
-							<span>£29.00</span>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-6 col-sm-6 col-md-6 mb-4 col-lg-4">
-
-					<div class="product-item">
-						<a href="shop-single.html" class="product-img"> <img
-							src="images/products/sock-1-min.jpg" alt="Image"
-							class="img-fluid">
-						</a>
-						<h3 class="title">
-							<a href="#">The Modern Sock</a>
-						</h3>
-						<div class="price">
-							<span>£29.00</span>
-						</div>
-					</div>
-
-				</div>
-				<div class="col-6 col-sm-6 col-md-6 mb-4 col-lg-4">
-
-					<div class="product-item">
-						<a href="shop-single.html" class="product-img">
-							<div class="label sale top-right">
-								<div class='content'>Sale</div>
-							</div> <img src="images/products/sweater-2-min.jpg" alt="Image"
-							class="img-fluid">
-						</a>
-						<h3 class="title">
-							<a href="#">Double Knit Sweater</a>
-						</h3>
-						<div class="price">
-							<del>£99.00</del>
-							&mdash; <span>£69.00</span>
-						</div>
-					</div>
-
-
-				</div>
-				<div class="col-6 col-sm-6 col-md-6 mb-4 col-lg-4">
-
-					<div class="product-item">
-						<a href="shop-single.html" class="product-img">
-							<div class="label sale top-right">
-								<div class='content'>Sale</div>
-							</div> <img src="images/products/watch-1-min.jpg" alt="Image"
-							class="img-fluid">
-						</a>
-						<h3 class="title">
-							<a href="#">The Murray</a>
-						</h3>
-						<div class="price">
-							<del>£99.00</del>
-							&mdash; <span>£69.00</span>
-						</div>
-					</div>
-
-
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- /.untree_co-section -->
-
-
-	<div class="container">
-
-
-		<div class="deal-hero overlay"
-			style="background-image: url('images/hero-slider-3-min.jpg')">
-			<div class="deal-contents">
-				<span class="subtitle">Limited Offers 20% OFF</span>
-				<h2 class="title mb-4">
-					<a href="#">Summer Promo</a>
-				</h2>
-				<p class="mb-5">Lorem ipsum dolor sit amet, consectetur
-					adipisicing elit. Laborum fuga incidunt laboriosam voluptas iure,
-					delectus dignissimos facilis neque nulla earum.</p>
-				<a href="#" class="btn btn-black">Shop Now</a>
-			</div>
-		</div>
-		<!-- /.deal-hero -->
-
-	</div>
-
-	<div class="untree_co-section">
-		<div class="container">
-			<div class="row mb-5 align-items-center">
-				<div class="col-md-6">
-					<h2 class="h3">Popular Items</h2>
-				</div>
-				<div class="col-sm-6 carousel-nav text-sm-right">
-					<a href="#" class="prev js-custom-prev-v2"> <svg width="1em"
-							height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-circle"
-							fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-							<path fill-rule="evenodd"
-								d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-							<path fill-rule="evenodd"
-								d="M8.354 11.354a.5.5 0 0 0 0-.708L5.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z" />
-							<path fill-rule="evenodd"
-								d="M11.5 8a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z" />
-						</svg>
-					</a> <a href="#" class="next js-custom-next-v2"> <svg width="1em"
-							height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-circle"
-							fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-							<path fill-rule="evenodd"
-								d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-							<path fill-rule="evenodd"
-								d="M7.646 11.354a.5.5 0 0 1 0-.708L10.293 8 7.646 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0z" />
-							<path fill-rule="evenodd"
-								d="M4.5 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5z" />
-						</svg>
-					</a>
-				</div>
-			</div>
-			<!-- /.heading -->
-			<div class="owl-3-slider owl-carousel">
-				<div class="item">
-					<div class="product-item">
-						<a href="shop-single.html" class="product-img">
-							<div class="label sale top-right">
-								<div class='content'>Sale</div>
-							</div> <img src="images/products/watch-1-min.jpg" alt="Image"
-							class="img-fluid">
-						</a>
-						<h3 class="title">
-							<a href="#">The Murray</a>
-						</h3>
-						<div class="price">
-							<del>£99.00</del>
-							&mdash; <span>£69.00</span>
-						</div>
-					</div>
-				</div>
-				<!-- /.item -->
-
-
-				<div class="item">
-					<div class="product-item">
-						<a href="shop-single.html" class="product-img">
-
-							<div class="label new top-right">
-								<div class='content'>New</div>
-							</div> <img src="images/products/jacket-1-min.jpg" alt="Image"
-							class="img-fluid">
-						</a>
-						<h3 class="title">
-							<a href="#">Dark Jacket</a>
-						</h3>
-						<div class="price">
-							<span>£69.00</span>
-						</div>
-					</div>
-				</div>
-				<!-- /.item -->
-
-
-				<div class="item">
-					<div class="product-item">
-						<a href="shop-single.html" class="product-img">
-							<div class="label new top-right">
-								<div class='content'>New</div>
-							</div>
-
-							<div class="label sale top-right second">
-								<div class='content'>Sale</div>
-							</div> <img src="images/products/bottoms-1-min.jpg" alt="Image"
-							class="img-fluid">
-						</a>
-						<h3 class="title">
-							<a href="#">Chino Bottoms</a>
-						</h3>
-						<div class="price">
-							<del>£99.00</del>
-							&mdash; <span>£69.00</span>
-						</div>
-					</div>
-				</div>
-				<!-- /.item -->
-
-				<div class="item">
-					<div class="product-item">
-						<a href="shop-single.html" class="product-img"> <img
-							src="images/products/sock-1-min.jpg" alt="Image"
-							class="img-fluid">
-						</a>
-						<h3 class="title">
-							<a href="#">The Modern Sock</a>
-						</h3>
-						<div class="price">
-							<span>£29.00</span>
-						</div>
-					</div>
-				</div>
-				<!-- /.item -->
-
-			</div>
-		</div>
-		<!-- /.container -->
-	</div>
-	<!-- /.untree_co-section -->
+	<jsp:include page="${view}" />
 
 	<!--------------------------View-------------------------------->
 
@@ -650,9 +339,12 @@
 	<script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/owl.carousel.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/jquery.animateNumber.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/jquery.waypoints.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/jquery.fancybox.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/js/jquery.animateNumber.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/js/jquery.waypoints.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/js/jquery.fancybox.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/jquery.sticky.js"></script>
 	<script src="${pageContext.request.contextPath}/js/aos.js"></script>
 	<script src="${pageContext.request.contextPath}/js/custom.js"></script>
