@@ -127,28 +127,22 @@ a {
 		<div class="row">
 			<table class="table">
 				<tr class="table-dark">
-					<th>Họ tên</th>
-					<th>Email</th>
-					<th>SĐT</th>
+					<th>Mã hóa đơn</th>
+					<th>Mã người dùng</th>
+					<th>Ngày tạo</th>
 					<th>Địa chỉ</th>
-					<th>Ghi chú</th>
-					<th>Ngày đặt hàng</th>
-					<th>Tổng tiền</th>
 					<th>Trạng thái</th>
 					<th>Hành động</th>
 				</tr>
-				<%-- <c:forEach items="${listOrder}" var="order">
-					<form
+				<c:forEach items="${listOrders}" var="order">
+					<%-- <form
 						action="/Assignment_Java4/admin/order/update?orderId=${order.id}"
-						method="post">
+						method="post"> --%>
 						<tr>
-							<td>${order.fullname}</td>
-							<td>${order.email}</td>
-							<td>${order.phoneNumber}</td>
+							<td>${order.id}</td>
+							<td>${order.accountById.id}</td>
+							<td>${order.createDate}</td>
 							<td>${order.address}</td>
-							<td>${order.note}</td>
-							<td>${order.orderDate}</td>
-							<td>${order.totalMoney}</td>
 							<td><select name="status" class="form-control" id="status">
 									<option value="0" ${order.status == 0 ? 'selected' : ''}>Chờ
 										xác nhận</option>
@@ -164,8 +158,8 @@ a {
 									Chi tiết </a>
 							</td>
 						</tr>
-					</form>
-				</c:forEach> --%>
+					<!-- </form> -->
+				</c:forEach>
 			</table>
 		</div>
 	</main>

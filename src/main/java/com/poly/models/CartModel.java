@@ -1,5 +1,7 @@
 package com.poly.models;
 
+import java.io.Serializable;
+
 import com.poly.entities.Product;
 
 import lombok.AllArgsConstructor;
@@ -11,7 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartModel {
+public class CartModel implements Serializable{
 	private Product product;
 	private int quantity;
 }

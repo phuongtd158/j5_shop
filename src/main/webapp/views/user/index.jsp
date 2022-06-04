@@ -90,51 +90,31 @@ a {
 						<li><a href="${pageContext.request.contextPath}/shop">Shop</a></li>
 						<li><a href="${pageContext.request.contextPath}/about">About</a></li>
 						<li><a href="${pageContext.request.contextPath}/contact">Contact</a></li>
-						<%--						<li class="has-children"><a href="${pageContext.request.contextPath}/shop">Shop</a>--%>
-						<%--							<ul class="dropdown">--%>
-						<%--								<li><a href="#">T-Shirt</a></li>--%>
-						<%--								<li><a href="#">Underware</a></li>--%>
-						<%--								<li><a href="#">Clothing</a></li>--%>
-						<%--								<li><a href="#">Watches</a></li>--%>
-						<%--								<li><a href="#">Shoes</a></li>--%>
-						<%--							</ul></li>--%>
-						<%--						<li class="has-children"><a href="#">Pages</a>--%>
-						<%--							<ul class="dropdown">--%>
-						<%--								<li><a href="${pageContext.request.contextPath}/">Elements</a></li>--%>
-						<%--								<li><a href="${pageContext.request.contextPath}/">About</a></li>--%>
-						<%--								<li><a href="${pageContext.request.contextPath}/">Contact</a></li>--%>
-						<%--								<li><a href="${pageContext.request.contextPath}/">Cart</a></li>--%>
-						<%--								<li><a href="${pageContext.request.contextPath}/">Checkout</a></li>--%>
-
-						<%--								<li class="has-children"><a href="#">Menu Two</a>--%>
-						<%--									<ul class="dropdown">--%>
-						<%--										<li><a href="#">T-Shirt</a></li>--%>
-						<%--										<li><a href="#">Underware</a></li>--%>
-						<%--										<li><a href="#">Clothing</a></li>--%>
-						<%--										<li><a href="#">Watches</a></li>--%>
-						<%--										<li><a href="#">Shoes</a></li>--%>
-
-						<%--									</ul></li>--%>
-						<%--								<li><a href="#">Menu Three</a></li>--%>
-						<%--							</ul></li>--%>
 					</ul>
 					<div class="menu-icons">
-						<a href="#" class="btn-custom-search" id="btn-search"> <svg
-								width="1em" height="1em" viewBox="0 0 16 16"
-								class="bi bi-search" fill="currentColor"
-								xmlns="http://www.w3.org/2000/svg">
-								<path fill-rule="evenodd"
-									d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
-								<path fill-rule="evenodd"
-									d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
-							</svg>
-						</a> <a href="#" class="user-profile"> <svg width="1em"
-								height="1em" viewBox="0 0 16 16" class="bi bi-person"
-								fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-								<path fill-rule="evenodd"
-									d="M13 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM3.022 13h9.956a.274.274 0 0 0 .014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 0 0 .022.004zm9.974.056v-.002.002zM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-							</svg>
-						</a> <a href="${pageContext.request.contextPath}/shopping-cart"
+						<c:if test="${!empty sessionScope.account}">
+							<ul
+								class="user-profile js-clone-nav pl-0 d-none d-lg-inline-block site-menu">
+								<li class="has-children">
+									<a href="${pageContext.request.contextPath}/profile">${sessionScope.account.fullName}</a>
+									<ul class="dropdown">
+									<c:if test="${sessionScope.account.admin == 1}">
+										<li><a href="${pageContext.request.contextPath}/admin/home">Admin page</a></li>
+									</c:if>
+										<li><a href="${pageContext.request.contextPath}/change-password">Change password</a></li>
+										<li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
+									</ul>
+								</li>
+							</ul>
+						</c:if>
+						<c:if test="${empty sessionScope.account}">
+							<ul
+								class="user-profile js-clone-nav pl-0 d-none d-lg-inline-block site-menu">
+								<li><a href="${pageContext.request.contextPath}/login">Login</a></li>
+							</ul>
+						</c:if>
+
+						<a href="${pageContext.request.contextPath}/shopping-cart"
 							class="cart"> <span class="item-in-cart"> <c:if
 									test="${!empty sessionScope.count}">
 							${sessionScope.count}

@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.poly.entities.Product;
 import com.poly.services.ProductService;
@@ -21,7 +22,11 @@ public class HomeController {
 
 	@GetMapping("home")
 	public String home(Model model) {
+		
+		List<Product> listProducts = this.productService.findAll();
 
+		model.addAttribute("listProducts", listProducts);
+		
 		model.addAttribute("view", "/views/user/home.jsp");
 		return "/user/index";
 	}
@@ -31,8 +36,8 @@ public class HomeController {
 
 		List<Product> listProducts = this.productService.findAllActive();
 
-		model.addAttribute("view", "/views/user/shop.jsp");
 		model.addAttribute("listProducts", listProducts);
+		model.addAttribute("view", "/views/user/shop.jsp");
 
 		return "/user/index";
 	}
@@ -62,9 +67,12 @@ public class HomeController {
 	public String productDetail(Model model, @PathVariable("id") Integer id) {
 
 		Product product = this.productService.getById(id);
+		List<Product> listProducts = this.productService.findAll();
 
-		model.addAttribute("view", "/views/user/product-detail.jsp");
 		model.addAttribute("product", product);
+		model.addAttribute("listProducts", listProducts);
+		model.addAttribute("view", "/views/user/product-detail.jsp");
+		
 		return "/user/index";
 	}
 
@@ -72,6 +80,13 @@ public class HomeController {
 	public String checkOut(Model model) {
 
 		model.addAttribute("view", "/views/user/check-out.jsp");
+		return "/user/index";
+	}
+
+	@GetMapping("thankyou")
+	public String thankYou(Model model) {
+
+		model.addAttribute("view", "/views/user/thankyou.jsp");
 		return "/user/index";
 	}
 

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -94,77 +93,7 @@ a {
 
 	<!--========== CONTENTS ==========-->
 	<main style="margin-top: 50px">
-		<div class="container">
-			<div class="row">
-				<h3 class="text-center">Thêm người dùng</h3>
-				<form:form
-					action="${pageContext.request.contextPath}/admin/account/store"
-					modelAttribute="accountModel" enctype="multipart/form-data">
-					<div class="row">
-						<div class="col-3">
-							<img class="img-fluid" id="imgPreview" src="" alt=""
-								style="border: 1px solid #ccc;"> <label>Hình ảnh</label>
-							<form:input type="file" path="imageFile" />
-							<form:errors path="photo" element="span"
-								cssClass="text-danger d-block" />
-						</div>
-						<div class="col-9">
-							<div class="form-group">
-								<label>Tên tài khoản</label>
-								<form:input path="username" class="form-control" autocomplete="off"/>
-								<form:errors path="username" element="span"
-									cssClass="text-danger d-block" />
-								<c:if test="${!empty sessionScope.errorUsername}">
-									<span class="text-danger"> ${sessionScope.errorUsername}</span>
-									<c:remove var="errorUsername" scope="session" />
-								</c:if>
-							</div>
-							<div class="form-group">
-								<label>Tên người dùng</label>
-								<form:input path="fullname" class="form-control" />
-								<form:errors path="fullname" element="span"
-									cssClass="text-danger d-block" />
-							</div>
-							<div class="form-group">
-								<label>Password</label>
-								<form:password path="password" class="form-control" autocomplete="off"/>
-								<form:errors path="password" element="span"
-									cssClass="text-danger d-block" />
-							</div>
-							<div class="form-group">
-								<label>Email</label>
-								<form:input type="email" path="email" class="form-control" />
-								<form:errors path="email" element="span"
-									cssClass="text-danger d-block" />
-								<c:if test="${!empty sessionScope.errorEmail}">
-									<span class="text-danger"> ${sessionScope.errorEmail}</span>
-									<c:remove var="errorEmail" scope="session" />
-								</c:if>
-							</div>
-							<div class="form-group">
-								<label>Activated</label>
-								<form:select path="activated" class="form-select">
-									<option value="1">Activated</option>
-									<option value="0">Inactivated</option>
-								</form:select>
-								<form:errors path="activated" element="span"
-									cssClass="text-danger d-block" />
-							</div>
-							<div class="form-group">
-								<label>Vai trò</label>
-								<form:select path="admin" class="form-select">
-									<option value="1">Admin</option>
-									<option value="0">User</option>
-								</form:select>
-								<form:errors path="admin" element="span"
-									cssClass="text-danger d-block" />
-							</div>
-							<button class="btn btn-primary mt-3">Thêm</button>
-						</div>
-					</div>
-				</form:form>
-			</div>
-		</div>
+		Admin
 	</main>
 
 	<script type="text/javascript"
@@ -179,20 +108,5 @@ a {
 		src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"
 		integrity="sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script type="text/javascript">
-		 $(document).ready(() => {
-		        $('#imageFile').change(function () {
-		            const file = this.files[0];
-		            if (file) {
-		                let reader = new FileReader();
-		                reader.onload = function (event) {
-		                    console.log(event.target.result);
-		                    $('#imgPreview').attr('src', event.target.result);
-		                }
-		                reader.readAsDataURL(file);
-		            }
-		        });
-		    });
-		</script>
 </body>
 </html>

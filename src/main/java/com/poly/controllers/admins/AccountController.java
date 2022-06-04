@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -41,6 +42,9 @@ public class AccountController {
 
 	@Autowired
 	private HttpServletRequest request;
+	
+	@Autowired
+	private HttpSession session;
 
 	@GetMapping("index")
 	public String index(Model model, @RequestParam(name = "p", defaultValue = "0") Integer page,
@@ -50,12 +54,11 @@ public class AccountController {
 		Sort sort = Sort.by(Direction.ASC, "id");
 		Page<Account> pageData = null;
 		List<Account> listAccounts;
-		
 
 		if (sortBy != null) {
-			
+
 			sort = Sort.by(Direction.ASC, sortBy);
-			
+
 			listAccounts = this.accountService.findAllActive(sort);
 
 		} else {
@@ -83,6 +86,19 @@ public class AccountController {
 		String passwordEncrypt = encryptUtils.encrypt(accountModel.getPassword());
 
 		if (result.hasErrors()) {
+			return "/admin/account/create";
+		}
+		
+		Account accountCheckUsername = this.accountService.findByUsername(accountModel.getUsername());
+		Account accountCheckEmail = this.accountService.findByEmail(accountModel.getEmail());
+
+		if (accountCheckUsername != null) {
+			session.setAttribute("errorUsername", "Username đã tồn tại");
+			return "/admin/account/create";
+		}
+		
+		if (accountCheckEmail != null) {
+			session.setAttribute("errorEmail", "Email đã tồn tại");
 			return "/admin/account/create";
 		}
 
@@ -113,21 +129,18 @@ public class AccountController {
 	public String update(@PathVariable("id") Integer id, @Valid AccountModel accountModel, BindingResult result) {
 
 		Account account = this.accountService.getById(id);
-
 		String oldPassword = account.getPassword();
-
-		accountModel.setPassword(oldPassword);
-
-		System.out.println(accountModel.getPassword());
 
 		if (result.hasErrors()) {
 			System.err.println(result.getAllErrors());
 			return "/admin/account/edit";
 		}
-
+		
 		if (!accountModel.getImageFile().isEmpty()) {
 			account.setPhoto(uploadFileUtils.uploadFile(accountModel.getImageFile()));
 		}
+		
+		accountModel.setPassword(oldPassword);
 
 		account.setActivated(accountModel.getActivated());
 		account.setAdmin(accountModel.getAdmin());

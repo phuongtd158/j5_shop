@@ -82,4 +82,9 @@ public interface AccountService {
 	
 	Page<Account> findAllActive(Pageable pageable);
 
+	Account findByUsername(String username);
+
+	Account findByEmail(String email);
+
+
 }

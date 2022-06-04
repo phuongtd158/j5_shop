@@ -179,7 +179,7 @@ public class AccountServiceImpl implements AccountService {
 	public <S extends Account> List<S> findAll(Example<S> example, Sort sort) {
 		return accountRepository.findAll(example, sort);
 	}
-	
+
 	@Override
 	public List<Account> findAllActive() {
 		return accountRepository.findAllActive();
@@ -187,12 +187,22 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public Page<Account> findAllActive(Pageable pageable) {
-		
+
 		return accountRepository.findAllActive(pageable);
 	}
 
 	@Override
 	public List<Account> findAllActive(Sort sort) {
 		return accountRepository.findAllActive(sort);
+	}
+
+	@Override
+	public Account findByUsername(String username) {
+		return accountRepository.findByUsernameEquals(username);
+	}
+	
+	@Override
+	public Account findByEmail(String email) {
+		return accountRepository.findByEmailEquals(email);
 	}
 }

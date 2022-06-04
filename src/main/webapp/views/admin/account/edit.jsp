@@ -125,7 +125,8 @@ a {
 							</div>
 							<div class="form-group">
 								<label>Password</label>
-								<form:password path="password" class="form-control" readonly="true" value="********"/>
+								<form:password path="password" class="form-control"
+									readonly="true" value="********" />
 								<form:errors path="password" element="span"
 									cssClass="text-danger d-block" />
 							</div>

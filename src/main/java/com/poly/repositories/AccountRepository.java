@@ -20,4 +20,8 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 	
 	@Query("select c from Account c where c.activated = 1")
 	List<Account> findAllActive(Sort sort);
+	
+	Account findByUsernameEquals(String username);
+	
+	Account findByEmailEquals(String email);
 }
