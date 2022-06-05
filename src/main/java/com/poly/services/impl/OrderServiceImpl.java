@@ -16,8 +16,8 @@ import com.poly.repositories.OrderRepository;
 import com.poly.services.OrderService;
 
 @Service
-public class OrderServiceImpl implements OrderService{
-	
+public class OrderServiceImpl implements OrderService {
+
 	private OrderRepository orderRepository;
 
 	public OrderServiceImpl(OrderRepository orderRepository) {
@@ -178,7 +178,10 @@ public class OrderServiceImpl implements OrderService{
 	public <S extends Order> List<S> findAll(Example<S> example, Sort sort) {
 		return orderRepository.findAll(example, sort);
 	}
-	
-	
-	
+
+	@Override
+	public List<Order> findAllByAccountId(Integer id) {
+		return orderRepository.findAllByAccountId(id);
+	}
+
 }

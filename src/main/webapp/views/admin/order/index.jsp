@@ -135,30 +135,30 @@ a {
 					<th>Hành động</th>
 				</tr>
 				<c:forEach items="${listOrders}" var="order">
-					<%-- <form
-						action="/Assignment_Java4/admin/order/update?orderId=${order.id}"
-						method="post"> --%>
-						<tr>
-							<td>${order.id}</td>
-							<td>${order.accountById.id}</td>
-							<td>${order.createDate}</td>
-							<td>${order.address}</td>
-							<td><select name="status" class="form-control" id="status">
-									<option value="0" ${order.status == 0 ? 'selected' : ''}>Chờ
-										xác nhận</option>
-									<option value="1" ${order.status == 1 ? 'selected' : ''}>Đã
-										xác nhận</option>
-									<option value="2" ${order.status == 2 ? 'selected' : ''}>Đã
-										hủy</option>
-							</select></td>
-							<td>
-								<button class="btn btn-dark">Cập nhật</button> <a
-								class="btn btn-warning"
-								href="/Assignment_Java4/admin/order/detail?orderId=${order.id}">
-									Chi tiết </a>
-							</td>
-						</tr>
-					<!-- </form> -->
+					<form
+						action="${pageContext.request.contextPath}/admin/order/update-order/${order.id}"
+						method="post">
+					<tr>
+						<td>${order.id}</td>
+						<td>${order.accountById.id}</td>
+						<td>${order.createDate}</td>
+						<td>${order.address}</td>
+						<td><select name="status" class="form-control" id="status">
+								<option value="0" ${order.status == 0 ? 'selected' : ''}>Chờ
+									xác nhận</option>
+								<option value="1" ${order.status == 1 ? 'selected' : ''}>Đã
+									xác nhận</option>
+								<option value="2" ${order.status == 2 ? 'selected' : ''}>Đã
+									hủy</option>
+						</select></td>
+						<td>
+							<button class="btn btn-dark">Cập nhật</button> <a
+							class="btn btn-warning"
+							href="${pageContext.request.contextPath}/admin/order/order-detail/${order.id}">
+								Chi tiết </a>
+						</td>
+					</tr>
+					</form>
 				</c:forEach>
 			</table>
 		</div>

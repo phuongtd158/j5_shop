@@ -65,6 +65,8 @@ public interface OrderService {
 	Optional<Order> findById(Integer id);
 
 	List<Order> findAllById(Iterable<Integer> ids);
+	
+	List<Order> findAllByAccountId(Integer id);
 
 	List<Order> findAll(Sort sort);
 

@@ -26,21 +26,18 @@
 				</div>
 			</div>
 		</div>
-		<form action="${pageContext.request.contextPath}/check-out" method="POST">
+		<form action="${pageContext.request.contextPath}/check-out"
+			method="POST">
 			<div class="row">
 				<div class="col-md-6 mb-5 mb-md-0">
 					<h2 class="h3 mb-3 text-black">Billing Details</h2>
 					<div class="p-3 p-lg-5 border">
 						<div class="form-group row">
-							<div class="col-md-6">
-								<label for="c_fname" class="text-black">First Name <span
+							<div class="col">
+								<label for="c_fname" class="text-black">Full Name <span
 									class="text-danger">*</span></label> <input type="text"
-									class="form-control" id="c_fname" name="c_fname">
-							</div>
-							<div class="col-md-6">
-								<label for="c_lname" class="text-black">Last Name <span
-									class="text-danger">*</span></label> <input type="text"
-									class="form-control" id="c_lname" name="c_lname">
+									class="form-control" id="c_fname" name="c_fname"
+									value="${sessionScope.account.fullName}" disabled="disabled">
 							</div>
 						</div>
 
@@ -49,22 +46,17 @@
 							<div class="col-md-12">
 								<label for="c_address" class="text-black">Address <span
 									class="text-danger">*</span></label> <input type="text"
-									class="form-control" id="c_address" name="c_address"
-									placeholder="Street address">
+									class="form-control" id="address" name="address"
+									placeholder="Street address" required="required">
 							</div>
 						</div>
 						<div class="form-group row mb-5">
-							<div class="col-md-6">
+							<div class="col">
 								<label for="c_email_address" class="text-black">Email
 									Address <span class="text-danger">*</span>
 								</label> <input type="text" class="form-control" id="c_email_address"
-									name="c_email_address">
-							</div>
-							<div class="col-md-6">
-								<label for="c_phone" class="text-black">Phone <span
-									class="text-danger">*</span></label> <input type="text"
-									class="form-control" id="c_phone" name="c_phone"
-									placeholder="Phone Number">
+									name="c_email_address" value="${sessionScope.account.email}"
+									disabled="disabled">
 							</div>
 						</div>
 
@@ -108,8 +100,8 @@
 									</tbody>
 								</table>
 								<div class="form-group">
-									<button class="btn btn-black btn-lg py-3 btn-block"
-										onclick="window.location='thankyou.html'">Place Order</button>
+									<button class="btn btn-black btn-lg py-3 btn-block">Place
+										Order</button>
 								</div>
 
 							</div>

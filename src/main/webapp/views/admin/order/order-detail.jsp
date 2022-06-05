@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -92,54 +93,62 @@ a {
 
 	<!--========== CONTENTS ==========-->
 	<main style="margin-top: 50px">
-		<div class="container">
-			<div class="row">
-				<div class="col-9 m-auto">
-					<table class="table mt-3">
-						<thead>
-							<tr class="table-dark">
-								<td>STT</td>
-								<td>Name</td>
-								<td>Category</td>
-								<td>Price</td>
-								<td>Date</td>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${data.content}" var="product"
-								varStatus="counter">
-								<tr>
-									<td>${counter.count}</td>
-									<td>${product.name}</td>
-									<td>${product.categoryById.name}</td>
-									<td>${product.price}</td>
-									<td>${product.createDate}</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-					<nav aria-label="...">
-						<ul class="pagination">
-							<li class="page-item"><a class="page-link"
-								href="${pageContext.request.contextPath}/admin/product/page">First</a>
-							</li>
-							<li class="page-item ${data.number == 0 ? 'disabled' : '' }"><a
-								class="page-link"
-								href="${pageContext.request.contextPath}/admin/product/page?p=${data.number-1}">
-									<< </a></li>
-							<li
-								class="page-item ${data.number == data.totalPages-1 ? 'disabled' : '' }"
-								aria-current="page"><a class="page-link"
-								href="${pageContext.request.contextPath}/admin/product/page?p=${data.number+1}">
-									>> </a></li>
-							<li class="page-item"><a class="page-link"
-								href="${pageContext.request.contextPath}/admin/product/page?p=${data.totalPages-1}">Last</a>
-							</li>
-						</ul>
-					</nav>
+		<div class="row">
+			<h3 class="p-0">Quản lý đơn hàng</h3>
+		</div>
+		<div class="row mt-2 mb-4">
+			<div class="col-7 p-0">
+				<div class="header__search">
+					<input type="search" placeholder="Tìm kiếm" class="header__input">
+					<i class='bx bx-search header__icon mt-1'></i>
+				</div>
+				<div class="header__toggle">
+					<i class='bx bx-menu' id="header-toggle"></i>
+				</div>
+			</div>
+			<div class="col-5 justify-content-end">
+				<div class="row align-items-center">
+					<div class="col-5">
+						<div class="form-group">
+							<select class="form-select" name="filter-categories"
+								id="filter-categories">
+								<option selected disabled value="none">Bộ lọc</option>
+								<option value="1">312321</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-4">
+						<i class='bx bx-box fs-5'></i> Tổng đơn hàng <span
+							class='text-danger'>${count}</span>
+					</div>
 				</div>
 			</div>
 		</div>
+		<table class="table">
+			<tr class="table-dark">
+				<th>STT</th>
+				<th>Sản phẩm</th>
+				<th>Hình ảnh</th>
+				<th>Số lượng</th>
+				<th>Đơn giá</th>
+				<th>Thành tiền</th>
+			</tr>
+			<c:forEach items="${listOrderDetails}" var="orderDetail"
+				varStatus="counter">
+				<tr>
+					<td>${counter.count}</td>
+					<td>${orderDetail.productById.name}</td>
+					<td><img
+						src="${pageContext.request.contextPath}/upload/${orderDetail.productById.image}"
+						width="70px" /></td>
+					<td>${orderDetail.quantity}</td>
+					<td><fmt:formatNumber value="${orderDetail.productById.price}"
+							pattern="#,###,###" /></td>
+					<td><fmt:formatNumber value="${orderDetail.price}"
+							pattern="#,###,###" /></td>
+				</tr>
+			</c:forEach>
+		</table>
 	</main>
 
 	<script type="text/javascript"

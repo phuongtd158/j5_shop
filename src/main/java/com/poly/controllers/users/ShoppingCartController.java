@@ -82,15 +82,15 @@ public class ShoppingCartController {
 	}
 
 	@PostMapping("check-out")
-	public String checkOut() {
+	public String checkOut(Model model, @RequestParam("address") String address) {
 
-		Account account = this.accountService.getById(22);
+		Account account = (Account)session.getAttribute("account");
 		Date createDate = new Date(System.currentTimeMillis());
 
 		Order order = new Order();
 		order.setAccountById(account);
 		order.setCreateDate(createDate);
-		order.setAddress("");
+		order.setAddress(address);
 		order.setStatus(0);
 
 		this.orderService.save(order);

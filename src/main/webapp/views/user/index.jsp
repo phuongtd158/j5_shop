@@ -101,6 +101,7 @@ a {
 									<c:if test="${sessionScope.account.admin == 1}">
 										<li><a href="${pageContext.request.contextPath}/admin/home">Admin page</a></li>
 									</c:if>
+										<li><a href="${pageContext.request.contextPath}/order-history">Order history</a></li>
 										<li><a href="${pageContext.request.contextPath}/change-password">Change password</a></li>
 										<li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
 									</ul>
