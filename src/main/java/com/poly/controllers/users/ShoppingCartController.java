@@ -77,7 +77,7 @@ public class ShoppingCartController {
 		session.setAttribute("cart", cart);
 		session.setAttribute("totalPrice", totalPrice);
 		session.setAttribute("count", count);
-		// model.addAttribute("view", "/views/user/shopping-cart.jsp");
+		
 		return "redirect:/shopping-cart";
 	}
 

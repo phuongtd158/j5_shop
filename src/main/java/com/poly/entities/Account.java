@@ -47,6 +47,9 @@ public class Account {
 
 	@Column(name = "admin")
 	private int admin;
+	
+	@Column(name ="reset_password_token")
+	private String resetPasswordToken;
 
 	@OneToMany(mappedBy = "accountById")
 	private List<Order> listOrders;

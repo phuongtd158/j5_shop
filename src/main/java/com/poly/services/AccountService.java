@@ -86,5 +86,11 @@ public interface AccountService {
 
 	Account findByEmail(String email);
 
+	void updatePassword(Account account, String newPassword);
+
+	Account get(String resetPasswordToken);
+
+	void updateResetPassword(String token, String email);
+
 
 }

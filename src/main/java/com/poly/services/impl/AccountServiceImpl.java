@@ -15,14 +15,18 @@ import org.springframework.stereotype.Service;
 import com.poly.entities.Account;
 import com.poly.repositories.AccountRepository;
 import com.poly.services.AccountService;
+import com.poly.utilities.EncryptUtils;
 
 @Service
 public class AccountServiceImpl implements AccountService {
 
 	private AccountRepository accountRepository;
 
-	public AccountServiceImpl(AccountRepository accountRepository) {
+	private EncryptUtils encryptUtils;
+
+	public AccountServiceImpl(AccountRepository accountRepository, EncryptUtils encryptUtils) {
 		this.accountRepository = accountRepository;
+		this.encryptUtils = encryptUtils;
 	}
 
 	@Override
@@ -200,9 +204,36 @@ public class AccountServiceImpl implements AccountService {
 	public Account findByUsername(String username) {
 		return accountRepository.findByUsernameEquals(username);
 	}
-	
+
 	@Override
 	public Account findByEmail(String email) {
 		return accountRepository.findByEmailEquals(email);
+	}
+
+	@Override
+	public void updateResetPassword(String token, String email) {
+		Account account = this.accountRepository.findByEmailEquals(email);
+
+		if (account != null) {
+			account.setResetPasswordToken(token);
+			this.accountRepository.save(account);
+		}
+
+	}
+
+	@Override
+	public Account get(String resetPasswordToken) {
+		return this.accountRepository.findByResetPasswordToken(resetPasswordToken);
+	}
+
+	@Override
+	public void updatePassword(Account account, String newPassword) {
+
+		String passwordEncrypt = this.encryptUtils.encrypt(newPassword);
+		account.setPassword(passwordEncrypt);
+		account.setResetPasswordToken(null);
+
+		this.accountRepository.save(account);
+
 	}
 }

@@ -64,24 +64,24 @@ button[type="submit"].form-control:hover {
 								</div>
 							</div>
 							<c:if test="${!empty sessionScope.errorPassword}">
-								<div class="d-flex">		
+								<div class="d-flex">
 									<div class="w-100">
 										<p class="alert alert-danger">${sessionScope.errorPassword}</p>
 									</div>
 								</div>
 								<c:remove var="errorPassword" scope="session" />
 							</c:if>
-							<form action="${pageContext.request.contextPath}/login" method="post"
-								class="login-form">
+							<form action="${pageContext.request.contextPath}/login"
+								method="post" class="login-form">
 								<div class="form-group mb-3">
-									<label class="label mb-1">Email</label> <input type="text"
-										class="form-control" name="username" placeholder="Email"
-										required>
+									<label class="label mb-1">Username</label> <input type="text"
+										class="form-control" name="username" placeholder="Username"
+										autocomplete="off" required>
 								</div>
 								<div class="form-group mb-3">
 									<label class="label mb-1">Password</label> <input
 										type="password" class="form-control" name="password"
-										placeholder="Password" autocomplete="on" required>
+										placeholder="Password" autocomplete="off" required>
 								</div>
 								<div class="form-group">
 									<button type="submit"
@@ -96,8 +96,8 @@ button[type="submit"].form-control:hover {
 											class="checkbox-wrap checkbox-primary mb-0" for="remember"
 											style="cursor: pointer"> Remember Me </label>
 									</div>
-									<div class="form-group ">
-										<a href="#" class="text-dark">Forgot Password</a>
+									<div class="form-group">
+										<a href="${pageContext.request.contextPath}/forgot-password" class="text-dark">Forgot Password</a>
 									</div>
 								</div>
 							</form>
