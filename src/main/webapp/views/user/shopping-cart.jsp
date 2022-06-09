@@ -18,6 +18,11 @@
 
 
 <div class="untree_co-section">
+	<c:if test="${!empty sessionScope.errorQuantity }">
+		<p class="text-center text-danger">${ sessionScope.errorQuantity }</p>
+		<c:remove var="errorQuantity" scope="session" />
+	</c:if>
+
 	<form action="${pageContext.request.contextPath}/update-cart"
 		method="post">
 		<div class="container">
@@ -114,9 +119,8 @@
 							<div class="row">
 								<div class="col-md-12">
 									<a href="${pageContext.request.contextPath}/check-out"
-										class="btn btn-black btn-lg py-3 btn-block"
-										onclick="window.location='checkout.html'">Proceed To
-										Checkout</a>
+										class="btn btn-black btn-lg py-3 btn-block ${sessionScope.cart == null ? 'disabled' : '' }" >Proceed
+										To Checkout</a>
 								</div>
 							</div>
 						</div>

@@ -1,7 +1,9 @@
 package com.poly.controllers.users;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -114,17 +116,77 @@ public class UserController {
 	@GetMapping("order-detail/{id}")
 	public String orderDetail(Model model, @PathVariable("id") Integer id) {
 
-		List<OrderDetail> listOrderDetails = this.orderService.getById(id).getOrderDetails();
+		Optional<Order> orderOptional = this.orderService.findById(id);
 
+		if (orderOptional.isEmpty()) {
+			session.setAttribute("errorOrder", "Hóa đơn không tồn tại");
+			return "redirect:/order-history";
+		}
+
+		List<OrderDetail> listOrderDetails = orderOptional.get().getOrderDetails();
+
+		session.removeAttribute("errorOrder");
 		model.addAttribute("listOrderDetails", listOrderDetails);
 		model.addAttribute("view", "/views/user/order-detail.jsp");
 		return "/user/index";
 	}
 
+	@GetMapping("cancel-order/{id}")
+	public String cancelOrder(Model model, @PathVariable("id") Integer id) {
+
+		Optional<Order> order = this.orderService.findById(id);
+		Account accountSession = (Account) session.getAttribute("account");
+
+		if (order.isEmpty()) {
+			session.setAttribute("errorOrder", "Đơn hàng không tồn tại");
+			return "redirect:/order-history";
+		}
+
+		if (order.isPresent()) {
+			if (order.get().getStatus() != 0) {
+				session.setAttribute("errorOrder", "Chỉ có thể hủy các đơn hàng có trạng thái là chờ xác nhận");
+				if (order.get().getAccountById().getId() != accountSession.getId()) {
+					session.setAttribute("errorOrder", "Đơn hàng không tồn tại");
+				}
+				return "redirect:/order-history";
+			}
+		}
+
+		order.get().setStatus(2);
+		this.orderService.save(order.get());
+
+		return "redirect:/order-history";
+	}
+
 	@GetMapping("change-password")
-	public String changePassword(Model model) {
+	public String getChangePasswordForm(Model model) {
 
 		model.addAttribute("view", "/views/user/change-password.jsp");
+		return "/user/index";
+	}
+
+	@PostMapping("change-password")
+	public String changePassword(Model model, @RequestParam("old-password") String oldPassword,
+			@RequestParam("new-password") String newPassword) {
+
+		Account accountSession = (Account) session.getAttribute("account");
+		Account account = this.accountService.getById(accountSession.getId());
+
+
+		boolean check = this.encryptUtils.check(oldPassword, accountSession.getPassword());
+		
+		if (!check) {
+			session.setAttribute("errorChangePassword", "Mật khẩu cũ không đúng");
+			return "redirect:/change-password";
+		}
+
+		newPassword = this.encryptUtils.encrypt(newPassword);
+		account.setPassword(newPassword);
+
+		this.accountService.save(account);
+
+		model.addAttribute("message", "Change password successfully");
+		model.addAttribute("view", "/views/user/message.jsp");
 		return "/user/index";
 	}
 
@@ -200,12 +262,12 @@ public class UserController {
 
 		if (account == null) {
 			model.addAttribute("message", "Invalid token");
-			
-		}else {
+
+		} else {
 			this.accountService.updatePassword(account, password);
 			model.addAttribute("message", "Change password successfully");
 		}
-		
+
 		model.addAttribute("view", "/views/user/message.jsp");
 		return "/user/index";
 	}

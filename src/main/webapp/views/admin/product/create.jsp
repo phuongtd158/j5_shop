@@ -127,7 +127,7 @@ a {
 							</div>
 							<div class="form-group">
 								<label>Giá</label>
-								<form:input path="price" class="form-control" />
+								<form:input path="price" class="form-control" type="number"/>
 								<form:errors path="price" element="span"
 									cssClass="text-danger d-block" />
 							</div>

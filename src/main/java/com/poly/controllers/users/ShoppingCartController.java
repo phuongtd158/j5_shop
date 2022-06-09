@@ -2,6 +2,7 @@ package com.poly.controllers.users;
 
 import java.sql.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -136,11 +137,12 @@ public class ShoppingCartController {
 		CartModel productCart;
 		double totalPrice = 0;
 		HashMap<Integer, CartModel> cart = (HashMap<Integer, CartModel>) session.getAttribute("cart");
-
+		
 		if (cart.containsKey(key)) {
 			productCart = cart.get(key);
 			if(quantity < 0 ) {
-				session.setAttribute("error", "Số lượng phải lớn hơn 0");
+				quantity = 1;
+				session.setAttribute("errorQuantity", "Số lượng phải lớn hơn 0");
 			}
 			if (quantity == 0) {
 				cart.remove(key);

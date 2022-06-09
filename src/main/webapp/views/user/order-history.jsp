@@ -14,6 +14,13 @@
 		</div>
 	</c:if>
 	<c:if test="${!empty listOrders}">
+	<c:if test="${!empty sessionScope.errorOrder}">
+		<p class="text-center text-danger">
+			${sessionScope.errorOrder}
+		</p>
+		<c:remove var="errorOrder" scope="session"/>
+	</c:if>
+	
 		<table class="table">
 			<tr class="table-dark">
 				<th>Mã hóa đơn</th>
@@ -38,7 +45,13 @@
                     </td>
 					<td><a class="btn btn-warning"
 						href="${pageContext.request.contextPath}/order-detail/${order.id}">
-							Chi tiết </a></td>
+							Chi tiết </a>
+						<c:if test="${order.status == 0}">
+							<a class="btn btn-danger"
+						href="${pageContext.request.contextPath}/cancel-order/${order.id}">
+							Hủy </a>
+						</c:if>		
+					</td>
 				</tr>
 			</c:forEach>
 		</table>

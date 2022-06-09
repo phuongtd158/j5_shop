@@ -132,7 +132,7 @@ a {
 								<label>Giá</label>
 								<form:input path="price" class="form-control" />
 								<form:errors path="price" element="span"
-									cssClass="text-danger d-block" />
+									cssClass="text-danger d-block" type="number"/>
 							</div>
 							<div class="form-group">
 								<label>Available</label>
