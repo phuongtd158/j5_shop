@@ -99,6 +99,10 @@
 										</tr>
 									</tbody>
 								</table>
+								<div class="form-group mb-3">
+									<input type="checkbox" id="check" name="check"> <label for="check" style="cursor: pointer;">Do
+										you want to print the invoice?</label>
+								</div>
 								<div class="form-group">
 									<button class="btn btn-black btn-lg py-3 btn-block">Place
 										Order</button>

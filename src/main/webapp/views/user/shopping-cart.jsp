@@ -18,9 +18,9 @@
 
 
 <div class="untree_co-section">
-	<c:if test="${!empty sessionScope.errorQuantity }">
-		<p class="text-center text-danger">${ sessionScope.errorQuantity }</p>
-		<c:remove var="errorQuantity" scope="session" />
+	<c:if test="${!empty sessionScope.errorShoppingCart }">
+		<p class="text-center text-danger">${ sessionScope.errorShoppingCart }</p>
+		<c:remove var="errorShoppingCart" scope="session" />
 	</c:if>
 
 	<form action="${pageContext.request.contextPath}/update-cart"

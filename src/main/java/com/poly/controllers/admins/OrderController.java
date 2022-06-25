@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.poly.entities.Account;
 import com.poly.entities.Order;
 import com.poly.entities.OrderDetail;
+import com.poly.services.AccountService;
 import com.poly.services.OrderService;
 
 @Controller
@@ -21,6 +23,9 @@ public class OrderController {
 
 	@Autowired
 	private OrderService orderService;
+
+	@Autowired
+	private AccountService accountService;
 
 	@GetMapping("index")
 	public String index(Model model) {
@@ -34,8 +39,12 @@ public class OrderController {
 	@GetMapping("order-detail/{id}")
 	public String detail(Model model, @PathVariable("id") Integer id) {
 		List<OrderDetail> listOrderDetails = this.orderService.getById(id).getOrderDetails();
+		Account account = this.orderService.getById(id).getAccountById();
+		Order order = this.orderService.getById(id);
 
 		model.addAttribute("listOrderDetails", listOrderDetails);
+		model.addAttribute("account", account);
+		model.addAttribute("order", order);
 		return "/admin/order/order-detail";
 	}
 
@@ -43,7 +52,7 @@ public class OrderController {
 	public String update(@PathVariable("id") Integer id, @RequestParam("status") Integer status) {
 
 		Order order = this.orderService.getById(id);
-		
+
 		order.setStatus(status);
 
 		this.orderService.save(order);

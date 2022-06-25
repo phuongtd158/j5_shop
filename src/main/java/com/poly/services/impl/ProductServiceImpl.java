@@ -194,4 +194,9 @@ public class ProductServiceImpl implements ProductService {
 		return productRepository.findAllActive(sort);
 	}
 
+	@Override
+	public List<Product> findAllByCategoryId(Integer id) {
+		return productRepository.findAllByCategoryId(id);
+	}
+
 }

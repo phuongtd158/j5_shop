@@ -81,5 +81,7 @@ public interface ProductService {
 	Page<Product> findAllActive(Pageable pageable);
 	
 	List<Product> findAllActive(Sort sort);
+	
+	List<Product> findAllByCategoryId(Integer id);
 
 }

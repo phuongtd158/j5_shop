@@ -23,6 +23,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	@Query("select c from Product c where c.status = 1")
 	List<Product> findAllActive(Sort sort);
 	
-//	@Query("select c from Product c where c.categoryByid.id = :id")
-//	List<Product> findAllByCategoryId(@Param("id") Integer id);
+	@Query("select c from Product c where c.categoryById.id = :id")
+	List<Product> findAllByCategoryId(@Param("id") Integer id);
 }

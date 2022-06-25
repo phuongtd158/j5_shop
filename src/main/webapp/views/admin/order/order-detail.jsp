@@ -124,6 +124,38 @@ a {
 				</div>
 			</div>
 		</div>
+
+		<div class="row">
+			<div class="col-6 border mb-5" style="margin-left: 11px">
+				<h5 class="border-bottom mb-3 mt-3">Thông tin thanh toán</h5>
+				<label>Tên khách hàng:</label> <input type="text"
+					value="${account.fullName}" class="form-control" disabled="disabled">
+				<label>Địa chỉ:</label> <input type="text" value="${order.address}"
+					class="form-control" disabled="disabled">
+				<div class="row mb-3">
+					<div class="col-6">
+						<label>Email:</label> <input type="email" value="${account.email}"
+							class="form-control" disabled="disabled">
+					</div>
+					<div class="col-6">
+						<label>Thời gian tạo:</label> <input type="text" value="${order.createDate}"
+							class="form-control" disabled="disabled">
+					</div>
+				</div>
+			</div>
+			<div class="col border mb-5" style="margin-left: 40px">
+				<h5 class="border-bottom mb-3 mt-3">Thông báo về việc gửi hàng</h5>
+				<label>Tên khách hàng:</label> <input type="text"
+					value="${account.fullName}" class="form-control" disabled="disabled">
+				<label>Địa chỉ:</label> <input type="text" value="${order.address}"
+					class="form-control" disabled="disabled"> <label>SĐT:</label>
+				<input type="text" value="0385606568" class="form-control"
+					disabled="disabled">
+			</div>
+		</div>
+		
+		<h5>Chi tiết đơn hàng</h5>
+		
 		<table class="table">
 			<tr class="table-dark">
 				<th>STT</th>

@@ -128,7 +128,7 @@ a {
 			<table class="table">
 				<tr class="table-dark">
 					<th>Mã hóa đơn</th>
-					<th>Mã người dùng</th>
+					<th>Username</th>
 					<th>Ngày tạo</th>
 					<th>Địa chỉ</th>
 					<th>Trạng thái</th>
@@ -140,7 +140,7 @@ a {
 						method="post">
 					<tr>
 						<td>${order.id}</td>
-						<td>${order.accountById.id}</td>
+						<td>${order.accountById.username}</td>
 						<td>${order.createDate}</td>
 						<td>${order.address}</td>
 						<td><select name="status" class="form-control" id="status">

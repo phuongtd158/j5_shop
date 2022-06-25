@@ -10,18 +10,14 @@ import com.poly.models.AccountModel;
 @Service
 public class AccountMapper {
 
-	@Autowired
-	private ModelMapper mapper;
+    @Autowired
+    private ModelMapper mapper;
 
-	public Account convertToEntity(AccountModel accountModel) {
-		Account account = mapper.map(accountModel, Account.class);
+    public Account convertToEntity(AccountModel accountModel) {
+        return mapper.map(accountModel, Account.class);
+    }
 
-		return account;
-	}
-
-	public AccountModel convertToDTO(Account account) {
-		AccountModel accountModel = mapper.map(account, AccountModel.class);
-
-		return accountModel;
-	}
+    public AccountModel convertToDTO(Account account) {
+        return mapper.map(account, AccountModel.class);
+    }
 }

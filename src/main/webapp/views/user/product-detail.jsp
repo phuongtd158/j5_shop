@@ -8,7 +8,7 @@
 			<div class="col-lg-7 mx-auto">
 				<h1>Shop</h1>
 				<p class="mb-4">
-					<a href="index.html">Home</a> / <strong>Shop</strong>
+					<a href="${pageContext.request.contextPath}/home">Home</a> / <strong>Shop</strong>
 				</p>
 			</div>
 		</div>
@@ -41,10 +41,15 @@
 				<p>Suspendisse cursus erat sed sem sagittis cursus. Etiam porta
 					sem malesuada magna mollis euismod.</p>
 
-				<form action="${pageContext.request.contextPath}/add-to-cart" method="post">
+				<form action="${pageContext.request.contextPath}/add-to-cart"
+					method="post">
 					<input type="hidden" name="id" value="${product.id}">
 					Quantity: <input type="text" class="form-control quantity mb-4"
 						name="quantity" value="1">
+					<c:if test="${!empty sessionScope.errorQuantity}">
+						<p class="text-danger">${sessionScope.errorQuantity}</p>
+						<c:remove var="errorQuantity" scope="session" />
+					</c:if>
 					<button class="btn btn-full-width btn-lg btn-outline-primary">Add
 						to cart</button>
 				</form>
@@ -85,24 +90,25 @@
 			</div>
 			<!-- /.heading -->
 			<div class="owl-3-slider owl-carousel">
-				<div class="item">
-					<div class="product-item">
-						<a href="shop-single.html" class="product-img">
-							<div class="label sale top-right">
-								<div class='content'>Sale</div>
-							</div> <img src="images/products/watch-1-min.jpg" alt="Image"
-							class="img-fluid">
-						</a>
-						<h3 class="title">
-							<a href="#">The Murray</a>
-						</h3>
-						<div class="price">
-							<del>£99.00</del>
-							&mdash; <span>£69.00</span>
+				<c:forEach items="${listProductsByCategoryId}" var="product">
+					<div class="item">
+						<div class="product-item">
+							<a href="shop-single.html" class="product-img">
+								<div class="label sale top-right">
+									<div class='content'>Sale</div>
+								</div> <img src="${pageContext.request.contextPath}/upload/${product.image}" alt="Image"
+								class="img-fluid">
+							</a>
+							<h3 class="title">
+								<a href="#">${product.name}</a>
+							</h3>
+							<div class="price">
+								<span>${product.price}</span>
+							</div>
 						</div>
 					</div>
-				</div>
-				<!-- /.item -->
+					<!-- /.item -->
+				</c:forEach>
 			</div>
 		</div>
 		<!-- /.container -->

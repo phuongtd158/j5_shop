@@ -99,9 +99,12 @@ public class HomeController {
 
 		Product product = this.productService.getById(id);
 		List<Product> listProducts = this.productService.findAll();
-
+		List<Product> listProductsByCategoryId = this.productService
+				.findAllByCategoryId(product.getCategoryById().getId());
+		
 		model.addAttribute("product", product);
 		model.addAttribute("listProducts", listProducts);
+		model.addAttribute("listProductsByCategoryId", listProductsByCategoryId);
 		model.addAttribute("view", "/views/user/product-detail.jsp");
 
 		return "/user/index";

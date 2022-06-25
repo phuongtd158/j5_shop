@@ -4,6 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,19 +23,23 @@ public class AccountModel {
 
     @NotNull(message = "Username không được để trống")
     @NotBlank(message = "Username không được để trống")
+    @Length(max = 255, message = "Không được nhập quá 255 ký tự")
     private String username;
 
     @NotNull(message = "Họ tên không được để trống")
     @NotBlank(message = "Họ tên không được để trống")
+    @Length(max = 255, message = "Không được nhập quá 255 ký tự")
     private String fullname;
 
     @NotNull(message = "Email không được để trống")
     @NotBlank(message = "Email không được để trống")
     @Email(message = "Email phải đúng định dạng")
+    @Length(max = 255, message = "Không được nhập quá 255 ký tự")
     private String email;
 
     @NotNull(message = "Password không được để trống")
     @NotBlank(message = "Password không được để trống")
+    @Length(max = 255, message = "Không được nhập quá 255 ký tự")
     private String password;
 
 //	@NotNull
