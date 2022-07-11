@@ -97,7 +97,7 @@ a {
 			<h3 class="p-0">Quản lý người dùng</h3>
 		</div>
 		<div class="row mt-2 mb-4">
-			<div class="col-7 p-0">
+			<div class="col-6 p-0">
 				<div class="header__search">
 					<input type="search" placeholder="Tìm kiếm" class="header__input">
 					<i class='bx bx-search header__icon mt-1'></i>
@@ -106,9 +106,9 @@ a {
 					<i class='bx bx-menu' id="header-toggle"></i>
 				</div>
 			</div>
-			<div class="col-5 justify-content-end">
+			<div class="col-6 justify-content-end">
 				<div class="row align-items-center">
-					<div class="col-5">
+					<div class="col-4">
 						<form method="GET"
 							action="${pageContext.request.contextPath}/admin/account/index">
 							<div class="form-group">
@@ -121,15 +121,23 @@ a {
 							</div>
 						</form>
 					</div>
-					<div class="col">
+					<div class="col-4">
 						<a href="${pageContext.request.contextPath}/admin/account/create"
 							class="text-dark"> <i class='bx bx-folder-plus fs-5'></i>
 							Thêm người dùng
 						</a>
 					</div>
-					<div class="col-4">
-						<i class='bx bx-box fs-5'></i> Tổng người dùng <span
-							class='text-danger'>${count}</span>
+					<div class="col">
+						<a href="${pageContext.request.contextPath}/admin/account/export"
+							class="text-dark"> <i class='bx bx-export fs-5'></i>
+							Xuất excel
+						</a>
+					</div>
+					<div class="col">
+						<a href="${pageContext.request.contextPath}/admin/account/import"
+							class="text-dark"> <i class='bx bx-import fs-5'></i>
+							Nhập excel
+						</a>
 					</div>
 				</div>
 			</div>

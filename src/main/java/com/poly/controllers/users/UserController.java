@@ -41,283 +41,280 @@ import net.bytebuddy.utility.RandomString;
 @RequestMapping("/")
 public class UserController {
 
-	@Autowired
-	private AccountService accountService;
+    @Autowired
+    private AccountService accountService;
 
-	@Autowired
-	private OrderService orderService;
+    @Autowired
+    private OrderService orderService;
 
-	@Autowired
-	private HttpSession session;
+    @Autowired
+    private HttpSession session;
 
-	@Autowired
-	private HttpServletRequest request;
+    @Autowired
+    private HttpServletRequest request;
 
-	@Autowired
-	private EncryptUtils encryptUtils;
+    @Autowired
+    private EncryptUtils encryptUtils;
 
-	@Autowired
-	private UploadFileUtils uploadFileUtils;
+    @Autowired
+    private UploadFileUtils uploadFileUtils;
 
-	@Autowired
-	private JavaMailSender mailSender;
+    private JavaMailSender mailSender;
 
-	@GetMapping("login")
-	public String loginView() {
+    @GetMapping("login")
+    public String loginView() {
 
-		return "/user/login";
-	}
+        return "/user/login";
+    }
 
-	@PostMapping("login")
-	public String login(@RequestParam("username") String username, @RequestParam("password") String password) {
+    @PostMapping("login")
+    public String login(@RequestParam("username") String username, @RequestParam("password") String password) {
 
-		Account account = this.accountService.findByUsername(username);
+        Account account = this.accountService.findByUsername(username);
 
-		if (account != null) {
-			String passwordEncrypt = account.getPassword();
+        if (account != null) {
+            String passwordEncrypt = account.getPassword();
 
-			boolean checkEncryptPassword = this.encryptUtils.check(password, passwordEncrypt);
+            boolean checkEncryptPassword = this.encryptUtils.check(password, passwordEncrypt);
 
-			if (!checkEncryptPassword) {
-				session.setAttribute("errorPassword", "Sai tên tài khoản hoặc mật khẩu");
-				return "redirect:/login";
-			} else {
+            if (!checkEncryptPassword) {
+                session.setAttribute("errorPassword", "Sai tên tài khoản hoặc mật khẩu");
+                return "redirect:/login";
+            } else {
 
-				session.setAttribute("account", account);
+                session.setAttribute("account", account);
 
-				if (account.getAdmin() == 1) {
-					return "redirect:/admin/home";
-				} else {
-					return "redirect:/home";
-				}
-			}
+                if (account.getAdmin() == 1) {
+                    return "redirect:/admin/home";
+                } else {
+                    return "redirect:/home";
+                }
+            }
 
-		} else {
-			session.setAttribute("errorPassword", "Sai tên tài khoản hoặc mật khẩu");
-			return "redirect:/login";
-		}
-	}
+        } else {
+            session.setAttribute("errorPassword", "Sai tên tài khoản hoặc mật khẩu");
+            return "redirect:/login";
+        }
+    }
 
-	@GetMapping("order-history")
-	public String orderHistory(Model model) {
+    @GetMapping("order-history")
+    public String orderHistory(Model model) {
 
-		Account account = (Account) session.getAttribute("account");
+        Account account = (Account) session.getAttribute("account");
 
-		System.out.println(account.getUsername());
+        System.out.println(account.getUsername());
 
-		List<Order> listOrders = this.orderService.findAllByAccountId(account.getId());
+        List<Order> listOrders = this.orderService.findAllByAccountId(account.getId());
 
-		model.addAttribute("listOrders", listOrders);
+        model.addAttribute("listOrders", listOrders);
 
-		model.addAttribute("view", "/views/user/order-history.jsp");
-		return "/user/index";
-	}
+        model.addAttribute("view", "/views/user/order-history.jsp");
+        return "/user/index";
+    }
 
-	@GetMapping("order-detail/{id}")
-	public String orderDetail(Model model, @PathVariable("id") Integer id) {
+    @GetMapping("order-detail/{id}")
+    public String orderDetail(Model model, @PathVariable("id") Integer id) {
 
-		Optional<Order> orderOptional = this.orderService.findById(id);
+        Optional<Order> orderOptional = this.orderService.findById(id);
 
-		if (orderOptional.isEmpty()) {
-			session.setAttribute("errorOrder", "Hóa đơn không tồn tại");
-			return "redirect:/order-history";
-		}
+        if (!orderOptional.isPresent()) {
+            session.setAttribute("errorOrder", "Hóa đơn không tồn tại");
+            return "redirect:/order-history";
+        }
 
-		List<OrderDetail> listOrderDetails = orderOptional.get().getOrderDetails();
+        List<OrderDetail> listOrderDetails = orderOptional.get().getOrderDetails();
 
-		session.removeAttribute("errorOrder");
-		model.addAttribute("listOrderDetails", listOrderDetails);
-		model.addAttribute("view", "/views/user/order-detail.jsp");
-		return "/user/index";
-	}
+        session.removeAttribute("errorOrder");
+        model.addAttribute("listOrderDetails", listOrderDetails);
+        model.addAttribute("view", "/views/user/order-detail.jsp");
+        return "/user/index";
+    }
 
-	@GetMapping("cancel-order/{id}")
-	public String cancelOrder(Model model, @PathVariable("id") Integer id) {
+    @GetMapping("cancel-order/{id}")
+    public String cancelOrder(Model model, @PathVariable("id") Integer id) {
 
-		Optional<Order> order = this.orderService.findById(id);
-		Account accountSession = (Account) session.getAttribute("account");
+        Optional<Order> order = this.orderService.findById(id);
+        Account accountSession = (Account) session.getAttribute("account");
 
-		if (order.isEmpty()) {
-			session.setAttribute("errorOrder", "Đơn hàng không tồn tại");
-			return "redirect:/order-history";
-		}
+        if (!order.isPresent()) {
+            session.setAttribute("errorOrder", "Đơn hàng không tồn tại");
+            return "redirect:/order-history";
+        }
 
-		if (order.isPresent()) {
-			if (order.get().getStatus() != 0) {
-				session.setAttribute("errorOrder", "Chỉ có thể hủy các đơn hàng có trạng thái là chờ xác nhận");
-				if (order.get().getAccountById().getId() != accountSession.getId()) {
-					session.setAttribute("errorOrder", "Đơn hàng không tồn tại");
-				}
-				return "redirect:/order-history";
-			}
-		}
+        if (order.get().getStatus() != 0) {
+            session.setAttribute("errorOrder", "Chỉ có thể hủy các đơn hàng có trạng thái là chờ xác nhận");
+            if (order.get().getAccountById().getId() != accountSession.getId()) {
+                session.setAttribute("errorOrder", "Đơn hàng không tồn tại");
+            }
+            return "redirect:/order-history";
+        }
 
-		order.get().setStatus(2);
-		this.orderService.save(order.get());
+        order.get().setStatus(2);
+        this.orderService.save(order.get());
 
-		return "redirect:/order-history";
-	}
+        return "redirect:/order-history";
+    }
 
-	@GetMapping("change-password")
-	public String getChangePasswordForm(Model model) {
+    @GetMapping("change-password")
+    public String getChangePasswordForm(Model model) {
 
-		model.addAttribute("view", "/views/user/change-password.jsp");
-		return "/user/index";
-	}
+        model.addAttribute("view", "/views/user/change-password.jsp");
+        return "/user/index";
+    }
 
-	@PostMapping("change-password")
-	public String changePassword(Model model, @RequestParam("old-password") String oldPassword,
-			@RequestParam("new-password") String newPassword) {
+    @PostMapping("change-password")
+    public String changePassword(Model model, @RequestParam("old-password") String oldPassword,
+                                 @RequestParam("new-password") String newPassword) {
 
-		Account accountSession = (Account) session.getAttribute("account");
-		Account account = this.accountService.getById(accountSession.getId());
+        Account accountSession = (Account) session.getAttribute("account");
+        Account account = this.accountService.getById(accountSession.getId());
 
 
-		boolean check = this.encryptUtils.check(oldPassword, accountSession.getPassword());
-		
-		if (!check) {
-			session.setAttribute("errorChangePassword", "Mật khẩu cũ không đúng");
-			return "redirect:/change-password";
-		}
+        boolean check = this.encryptUtils.check(oldPassword, accountSession.getPassword());
 
-		newPassword = this.encryptUtils.encrypt(newPassword);
-		account.setPassword(newPassword);
+        if (!check) {
+            session.setAttribute("errorChangePassword", "Mật khẩu cũ không đúng");
+            return "redirect:/change-password";
+        }
 
-		this.accountService.save(account);
+        newPassword = this.encryptUtils.encrypt(newPassword);
+        account.setPassword(newPassword);
 
-		model.addAttribute("message", "Change password successfully");
-		model.addAttribute("view", "/views/user/message.jsp");
-		return "/user/index";
-	}
+        this.accountService.save(account);
 
-	@GetMapping("forgot-password")
-	public String getFormforgotPassword(Model model) {
+        model.addAttribute("message", "Change password successfully");
+        model.addAttribute("view", "/views/user/message.jsp");
+        return "/user/index";
+    }
 
-		model.addAttribute("view", "/views/user/forgot-password.jsp");
-		return "/user/index";
-	}
+    @GetMapping("forgot-password")
+    public String getFormForgotPassword(Model model) {
 
-	@PostMapping("forgot-password")
-	public String forgotPassword(Model model, @RequestParam("email") String email) {
+        model.addAttribute("view", "/views/user/forgot-password.jsp");
+        return "/user/index";
+    }
 
-		String token = RandomString.make(45);
+    @PostMapping("forgot-password")
+    public String forgotPassword(Model model, @RequestParam("email") String email) {
 
-		String url = this.request.getRequestURL().toString().replace(this.request.getServletPath(), "");
+        String token = RandomString.make(45);
 
-		try {
-			this.accountService.updateResetPassword(token, email);
+        String url = this.request.getRequestURL().toString().replace(this.request.getServletPath(), "");
 
-			String resetPasswordLink = url + "/reset-password?token=" + token;
+        try {
+            this.accountService.updateResetPassword(token, email);
 
-			sendEmail(email, resetPasswordLink);
+            String resetPasswordLink = url + "/reset-password?token=" + token;
 
-			session.setAttribute("mess", "Reset password link has been sent to your email");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+            sendEmail(email, resetPasswordLink);
 
-		model.addAttribute("view", "/views/user/forgot-password.jsp");
-		return "/user/index";
-	}
+            session.setAttribute("mess", "Reset password link has been sent to your email");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	private void sendEmail(String email, String resetPasswordLink)
-			throws UnsupportedEncodingException, MessagingException {
-		MimeMessage message = mailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(message);
+        model.addAttribute("view", "/views/user/forgot-password.jsp");
+        return "/user/index";
+    }
 
-		helper.setFrom("tdphuong2002@gmail.com", "Support");
-		helper.setTo(email);
+    private void sendEmail(String email, String resetPasswordLink)
+            throws UnsupportedEncodingException, MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
 
-		String subject = "Here's the link to reset your password.";
-		String content = "<p>Hello, </p>" + "<p>You have requested to reset password</p>"
-				+ "<p>Click the link below to change your password:</p>" + "<a href=\"" + resetPasswordLink
-				+ "\">Change my password</a>";
-		helper.setSubject(subject);
-		helper.setText(content, true);
+        helper.setFrom("tdphuong2002@gmail.com", "Support");
+        helper.setTo(email);
 
-		this.mailSender.send(message);
-	}
+        String subject = "Here's the link to reset your password.";
+        String content = "<p>Hello, </p>" + "<p>You have requested to reset password</p>"
+                + "<p>Click the link below to change your password:</p>" + "<a href=\"" + resetPasswordLink
+                + "\">Change my password</a>";
+        helper.setSubject(subject);
+        helper.setText(content, true);
 
-	@GetMapping("reset-password")
-	public String getFormResetPassword(Model model, @Param("token") String token) {
+        this.mailSender.send(message);
+    }
 
-		Account account = this.accountService.get(token);
+    @GetMapping("reset-password")
+    public String getFormResetPassword(Model model, @Param("token") String token) {
 
-		if (account == null) {
-			model.addAttribute("message", "Invalid token");
-			model.addAttribute("view", "/views/user/message.jsp");
-			return "/user/index";
-		}
+        Account account = this.accountService.get(token);
 
-		model.addAttribute("token", token);
-		model.addAttribute("view", "/views/user/reset-password.jsp");
-		return "/user/index";
-	}
+        if (account == null) {
+            model.addAttribute("message", "Invalid token");
+            model.addAttribute("view", "/views/user/message.jsp");
+            return "/user/index";
+        }
 
-	@PostMapping("reset-password")
-	public String resetPassword(Model model, @RequestParam("password") String password,
-			@RequestParam("token") String token) {
+        model.addAttribute("token", token);
+        model.addAttribute("view", "/views/user/reset-password.jsp");
+        return "/user/index";
+    }
 
-		Account account = this.accountService.get(token);
+    @PostMapping("reset-password")
+    public String resetPassword(Model model, @RequestParam("password") String password,
+                                @RequestParam("token") String token) {
 
-		if (account == null) {
-			model.addAttribute("message", "Invalid token");
+        Account account = this.accountService.get(token);
 
-		} else {
-			this.accountService.updatePassword(account, password);
-			model.addAttribute("message", "Change password successfully");
-		}
+        if (account == null) {
+            model.addAttribute("message", "Invalid token");
 
-		model.addAttribute("view", "/views/user/message.jsp");
-		return "/user/index";
-	}
+        } else {
+            this.accountService.updatePassword(account, password);
+            model.addAttribute("message", "Change password successfully");
+        }
 
-	@GetMapping("profile")
-	public String editProfile(Model model, @ModelAttribute("accountModel") ProfileModel accountModel) {
+        model.addAttribute("view", "/views/user/message.jsp");
+        return "/user/index";
+    }
 
-		Account account = (Account) session.getAttribute("account");
+    @GetMapping("profile")
+    public String editProfile(Model model, @ModelAttribute("accountModel") ProfileModel accountModel) {
 
-		model.addAttribute("account", account);
-		model.addAttribute("view", "/views/user/profile.jsp");
-		return "/user/index";
-	}
+        Account account = (Account) session.getAttribute("account");
 
-	@PostMapping("update-profile")
-	public String updateProfile(Model model, @Valid @ModelAttribute("accountModel") ProfileModel accountModel,
-			BindingResult result) {
+        model.addAttribute("account", account);
+        model.addAttribute("view", "/views/user/profile.jsp");
+        return "/user/index";
+    }
 
-		Account accountSession = (Account) session.getAttribute("account");
-		Account account = this.accountService.getById(accountSession.getId());
+    @PostMapping("update-profile")
+    public String updateProfile(Model model, @Valid @ModelAttribute("accountModel") ProfileModel accountModel,
+                                BindingResult result) {
 
-		if (result.hasErrors()) {
-			model.addAttribute("view", "/views/user/profile.jsp");
-			return "/user/index";
-		}
+        Account accountSession = (Account) session.getAttribute("account");
+        Account account = this.accountService.getById(accountSession.getId());
 
-		if (!accountModel.getImageFile().isEmpty()) {
-			account.setPhoto(uploadFileUtils.uploadFile(accountModel.getImageFile()));
-		}
+        if (result.hasErrors()) {
+            model.addAttribute("view", "/views/user/profile.jsp");
+            return "/user/index";
+        }
 
-		account.setEmail(accountModel.getEmail());
-		account.setFullName(accountModel.getFullname());
-		account.setUsername(accountModel.getUsername());
-		account.setAdmin(accountSession.getAdmin());
-		account.setPassword(accountSession.getPassword());
-		account.setActivated(accountSession.getActivated());
+        if (!accountModel.getImageFile().isEmpty()) {
+            account.setPhoto(uploadFileUtils.uploadFile(accountModel.getImageFile()));
+        }
 
-		this.accountService.save(account);
+        account.setEmail(accountModel.getEmail());
+        account.setFullName(accountModel.getFullname());
+        account.setUsername(accountModel.getUsername());
+        account.setAdmin(accountSession.getAdmin());
+        account.setPassword(accountSession.getPassword());
+        account.setActivated(accountSession.getActivated());
 
-		session.setAttribute("account", account);
+        this.accountService.save(account);
 
-		return "redirect:/profile";
-	}
+        session.setAttribute("account", account);
 
-	@GetMapping("logout")
-	public String logout() {
-		if (session != null) {
-			session.removeAttribute("account");
-		}
-		return "redirect:/home";
-	}
+        return "redirect:/profile";
+    }
+
+    @GetMapping("logout")
+    public String logout() {
+        if (session != null) {
+            session.removeAttribute("account");
+        }
+        return "redirect:/home";
+    }
 
 }

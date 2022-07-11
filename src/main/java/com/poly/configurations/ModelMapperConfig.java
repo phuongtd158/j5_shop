@@ -1,4 +1,4 @@
-package com.poly;
+package com.poly.configurations;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
